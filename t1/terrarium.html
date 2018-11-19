@@ -1,0 +1,140 @@
+<html>
+<head>
+	<!-- Import Woofjs -->
+	<script src='https://rawgit.com/stevekrouse/WoofJS/master/dist/woof.js'></script>
+</head>
+<body>
+	<script type='text/javascript'>
+		var plantMaxAge = 10;
+		var plantSpawnRate = 5;
+		var currentCycle = 0;
+
+		// Create an organism class, this will be the root of all creatures in our terrarium
+		class Organism {
+			// Use the constructor method to create a new Image from the input URL. This lets us vary what a creature looks like dynamically
+			// BONUS: how can we set the organism's size?
+			constructor(url, height, width, maxAge) {
+				this.sprite =  new Image({
+					x: randomX(),
+					y: randomY(),
+					height,
+					width,
+					url
+				})
+
+				this.currentAge = 0;
+				this.maxAge = maxAge;
+			}
+
+			// Create an age function to represent time passing for the creature. Age should increment the organisms age, and if its too old it should be deleted
+			age(time) {
+				this.currentAge += time;
+				if (this.currentAge > this.maxAge) {
+					this.sprite.delete();
+					return false;
+				}
+
+				return true;
+			}
+		}
+
+		// 1. Pick a backdrop that is appropiate to your terrariam
+		// BONUS: How can we make sure it doesn't stretch?
+		setBackdropURL('http://cdn.playbuzz.com/cdn/cba9f74c-4723-45ee-8e74-3603f0109cff/596ce476-c2ae-442b-99a3-18a90ab3496b.jpg')
+		setBackdropStyle('cover');
+
+		// Maintain a list of created plants
+		var plants = [];
+		var alivePlants = 0;
+
+		// Every second we should age() our organisms by 1
+		every(1, "second", () => {
+			plants = plants.reduce((newPlants, plant) => {
+				if (plant.age(1)) {
+					newPlants.push(plant);
+				}
+				return newPlants;
+			}, []);
+		});
+		
+		// Every 5 seconds, spawn a new plant
+		every(1, "second", () => {
+			currentCycle += 1;
+			if (currentCycle % plantSpawnRate === 0) {
+				var plant = new Organism('https://mbtskoudsalg.com/images250_/africa-tree-png.png', 100, 117, plantMaxAge);
+				plants.push(plant)
+			}
+		})
+
+		// Display a counter of how many plants currently exists
+		var plantCounter = new Text({
+			x: minX,
+			y: maxY - 10,
+			size: 20,
+			textAlign: 'left'
+		});
+
+		// Display a counter of current max age for plants
+		var plantMaxAgeCounter = new Text({
+			x: maxX - 120,
+			y: maxY - 20,
+			size: 20,
+			textAlign: 'center'
+		});
+
+		// Display a counter of current max age for plants
+		var plantSpawnRateCounter = new Text({
+			x: maxX - 120,
+			y: maxY - 80,
+			size: 20,
+			textAlign: 'center'
+		});
+
+		forever(() => {
+			plantCounter.text = `Plant Count: ${plants.length}`;
+			plantMaxAgeCounter.text=`Max Age: ${plantMaxAge}`;
+			plantSpawnRateCounter.text = `Rate: ${plantSpawnRate}`;
+		})
+
+		// Create control buttons
+		var maxAgeDecrementButton = new Image({
+			width: 40, 
+			height: 40,
+			x: maxX - 200,
+			y: maxY - 20,
+			url: 'https://image.flaticon.com/icons/png/512/25/25232.png'
+		});
+		maxAgeDecrementButton.onMouseDown(() => plantMaxAge -= 1);
+
+		// Create control buttons
+		var maxAgeIncrementButton = new Image({
+			width: 40, 
+			height: 40,
+			x: maxX - 40,
+			y: maxY - 20,
+			url: 'http://cdn.onlinewebfonts.com/svg/img_84809.png'
+		});
+		maxAgeIncrementButton.onMouseDown(() => plantMaxAge += 1);
+
+		// Create control buttons
+		var plantSpawnRateDecrementButton = new Image({
+			width: 40, 
+			height: 40,
+			x: maxX - 200,
+			y: maxY - 80,
+			url: 'https://image.flaticon.com/icons/png/512/25/25232.png'
+		});
+		plantSpawnRateDecrementButton.onMouseDown(() => plantSpawnRate -= 1);
+
+		// Create control buttons
+		var plantSpawnRateIncrementButton = new Image({
+			width: 40, 
+			height: 40,
+			x: maxX - 40,
+			y: maxY - 80,
+			url: 'http://cdn.onlinewebfonts.com/svg/img_84809.png'
+		});
+		plantSpawnRateIncrementButton.onMouseDown(() => plantSpawnRate += 1);
+	</script>
+</body>
+</html>
