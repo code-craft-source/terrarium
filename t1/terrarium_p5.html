@@ -1,0 +1,109 @@
+<html>
+<head>
+	<!-- Import P5 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+</head>
+<body>
+	<script type='text/javascript'>
+		const CANVAS_HEIGHT = 800;
+		const CANVAS_WIDTH = 800;
+		const START_SIZE = 75;
+		const SPAWN_CHANCE = 0.5;
+		const TREE_MAX_AGE = 20;
+		let cycle;
+
+		class Tree {
+			constructor(x, y, leafCount, maxAge) {
+				this.x = x;
+				this.y = y;
+				this.currentAge = 0;
+				this.maxAge = maxAge;
+				this.leafCount = leafCount;
+			}
+
+			age() {
+				this.currentAge += 1;
+				return this.currentAge < this.maxAge;
+			}
+
+			displayStats() {
+				fill('black');
+				textAlign(CENTER);
+				textSize(15);
+				text(`X: ${Math.floor(this.x)}`, this.x, this.y - 20)
+				text(`Y: ${Math.floor(this.y)}`, this.x, this.y)
+				text(`Age: ${this.currentAge}`, this.x, this.y + 20)
+			}
+		}
+
+		class BasicTree extends Tree {
+			draw() {
+				noStroke(0)
+				fill('green')
+				ellipse(this.x, this.y, START_SIZE);
+			}
+		}
+
+		class BumpyTree extends Tree {
+			draw() {
+				noStroke(0)
+				fill('green')
+				ellipse(this.x, this.y, START_SIZE);
+
+				for (var i = 0; i < this.leafCount; i++) {
+					var angle =  i / this.leafCount * 2 * PI;
+					ellipse(this.x + cos(angle) * START_SIZE / 2, this.y + sin(angle) * START_SIZE / 2, START_SIZE)
+				}
+			}
+		}
+
+		class EvergreenTree extends Tree {
+			draw() {
+				noStroke(0)
+				fill('brown')
+				rect(this.x - 3, this.y, 6, START_SIZE)
+
+				fill('green')
+				for (var i = 0; i < this.leafCount; i++) {
+					var yBottom = this.y + START_SIZE / 2 - (i-0.5) * START_SIZE / this.leafCount;
+					var yTop = this.y + START_SIZE / 2 - (i + 1) * START_SIZE / this.leafCount;
+					var width = START_SIZE * (this.leafCount - i) / this.leafCount;
+					triangle(this.x - width / 2, yBottom, this.x, yTop, this.x + width / 2, yBottom)
+				}
+			}
+		}
+
+		let trees = [];
+		const TREE_TYPES = [BasicTree, EvergreenTree, BumpyTree];
+
+		function setup() {
+			cycle = 0;
+			frameRate(1);
+		}
+
+		function draw() {
+			createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+			background('lightyellow');
+			if (random() < SPAWN_CHANCE) {
+				generateTree();
+			}
+			trees = trees.reduce((newTrees, tree) => {
+				var treeSurvived = tree.age();
+				if (treeSurvived) {
+					newTrees.push(tree);
+				}
+				return newTrees;
+			}, []);
+			trees.forEach(tree => tree.draw());
+			trees.forEach(tree => tree.displayStats())
+			cycle += 1;
+		}
+
+		function generateTree() {
+			var TreeType = TREE_TYPES[Math.floor(random(TREE_TYPES.length))]
+			trees.push(new TreeType(random(width), random(height),Math.floor(random(4,9)), Math.floor(random(TREE_MAX_AGE))))
+		}
+
+	</script>
+</body>
+</html>
