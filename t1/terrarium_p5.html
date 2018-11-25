@@ -8,16 +8,27 @@
 		const CANVAS_HEIGHT = 800;
 		const CANVAS_WIDTH = 800;
 		const START_SIZE = 75;
-		const SPAWN_CHANCE = 0.5;
-		const TREE_MAX_AGE = 20;
-		const GROW_RATE = 2;
+		const SPAWN_CHANCE = 0.25;
+		const TREE_MAX_AGE = 300;
+		const GROW_RATE = 0.25;
+		const DISPLAY_STATS = false;
 		let cycle;
 
 		class Tree {
+			static get colorLifeCycle() {
+				return [
+				  color(0,204,102),
+				  color(0,102,0),
+				  color(255,215,0),
+				  color(255,128,0),
+				  color(102,51,0)
+				]
+			}
+
 			constructor(x, y, leafCount, maxAge, treeSize) {
 				this.x = x;
 				this.y = y;
-				this.currentAge = 0;
+				this.currentAge = 1;
 				this.maxAge = maxAge;
 				this.leafCount = leafCount;
 				this.treeSize = treeSize;
@@ -33,28 +44,41 @@
 				fill('black');
 				textAlign(CENTER);
 				textSize(15);
-				text(`Size: ${this.treeSize}`, this.x, this.y - 10)
+				text(`Size: ${Math.floor(this.treeSize)}`, this.x, this.y - 10)
 				text(`Age: ${this.currentAge}`, this.x, this.y + 10)
+			}
+
+			leafColor() {
+				var agePerStep = this.maxAge / (this.constructor.colorLifeCycle.length - 1);
+				var currentCycle = Math.floor(this.currentAge / this.maxAge * (this.constructor.colorLifeCycle.length - 1))
+
+				return lerpColor(this.constructor.colorLifeCycle[currentCycle], this.constructor.colorLifeCycle[currentCycle + 1], (this.currentAge % agePerStep) / agePerStep)
 			}
 		}
 
 		class BasicTree extends Tree {
 			draw() {
 				noStroke(0)
-				fill('green')
-				ellipse(this.x, this.y, this.treeSize);
+				fill('brown')
+				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
+				fill(this.leafColor())
+				ellipse(this.x, this.y - this.treeSize, this.treeSize);
 			}
 		}
 
 		class BumpyTree extends Tree {
 			draw() {
 				noStroke(0)
-				fill('green')
-				ellipse(this.x, this.y, this.treeSize);
+				fill('brown')
+				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
+
+				fill(this.leafColor())
+				var leafStartY = this.y - this.treeSize;
+				ellipse(this.x, leafStartY, this.treeSize);
 
 				for (var i = 0; i < this.leafCount; i++) {
 					var angle =  i / this.leafCount * 2 * PI;
-					ellipse(this.x + cos(angle) * this.treeSize / 2, this.y + sin(angle) * this.treeSize / 2, this.treeSize)
+					ellipse(this.x + cos(angle) * this.treeSize / 4, leafStartY + sin(angle) * this.treeSize / 4, this.treeSize)
 				}
 			}
 		}
@@ -63,12 +87,13 @@
 			draw() {
 				noStroke(0)
 				fill('brown')
-				rect(this.x - this.treeSize / 10 / 2, this.y, this.treeSize / 10, this.treeSize)
+				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
 
-				fill('green')
+				fill(this.leafColor())
+								var leafStartY = this.y - this.treeSize;
 				for (var i = 0; i < this.leafCount; i++) {
-					var yBottom = this.y + this.treeSize / 2 - (i-0.5) * this.treeSize / this.leafCount;
-					var yTop = this.y + this.treeSize / 2 - (i + 1) * this.treeSize / this.leafCount;
+					var yBottom = leafStartY + this.treeSize / 2 - (i-0.5) * this.treeSize / this.leafCount;
+					var yTop = leafStartY + this.treeSize / 2 - (i + 1) * this.treeSize / this.leafCount;
 					var width = this.treeSize * (this.leafCount - i) / this.leafCount;
 					triangle(this.x - width / 2, yBottom, this.x, yTop, this.x + width / 2, yBottom)
 				}
@@ -80,13 +105,13 @@
 
 		function setup() {
 			cycle = 0;
-			frameRate(1);
+			frameRate(8);
 		}
 
 		function draw() {
 			createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 			background('lightyellow');
-			if (random() < SPAWN_CHANCE) {
+			if (trees.length === 0 || random() < SPAWN_CHANCE) {
 				generateTree();
 			}
 			trees = trees.reduce((newTrees, tree) => {
@@ -95,15 +120,19 @@
 					newTrees.push(tree);
 				}
 				return newTrees;
-			}, []);
+			}, []).sort((a, b) => a.y - b. y);
 			trees.forEach(tree => tree.draw());
-			trees.forEach(tree => tree.displayStats())
+			trees.forEach(tree => {
+				if (DISPLAY_STATS) {
+					tree.displayStats()
+				}
+			})
 			cycle += 1;
 		}
 
 		function generateTree() {
 			var TreeType = TREE_TYPES[Math.floor(random(TREE_TYPES.length))]
-			trees.push(new TreeType(random(width), random(height),Math.floor(random(4,9)), Math.floor(random(TREE_MAX_AGE)), Math.floor(random(START_SIZE - 25, START_SIZE))))
+			trees.push(new TreeType(random(width), random(height),Math.floor(random(4,9)), Math.floor(random(TREE_MAX_AGE * 0.5,TREE_MAX_AGE)), Math.floor(random(START_SIZE * 0.5, START_SIZE))))
 		}
 
 	</script>
