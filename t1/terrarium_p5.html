@@ -17,11 +17,11 @@
 		class Tree {
 			static get colorLifeCycle() {
 				return [
-				  color(0,204,102),
-				  color(0,102,0),
-				  color(255,215,0),
-				  color(255,128,0),
-				  color(102,51,0)
+				color(0,204,102),
+				color(0,102,0),
+				color(255,215,0),
+				color(255,128,0),
+				color(102,51,0)
 				]
 			}
 
@@ -54,54 +54,59 @@
 
 				return lerpColor(this.constructor.colorLifeCycle[currentCycle], this.constructor.colorLifeCycle[currentCycle + 1], (this.currentAge % agePerStep) / agePerStep)
 			}
-		}
 
-		class BasicTree extends Tree {
 			draw() {
-				noStroke(0)
+				noStroke()
+				this.drawTrunk();
+				this.drawLeaves(this.x, this.y - this.treeSize);
+			}
+
+			drawTrunk() {
 				fill('brown')
 				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
+			}
+
+			drawLeaves(leavesStartX, leavesStartY) {
 				fill(this.leafColor())
-				ellipse(this.x, this.y - this.treeSize, this.treeSize);
+				ellipse(leavesStartX, leavesStartY, this.treeSize);
 			}
 		}
 
 		class BumpyTree extends Tree {
-			draw() {
-				noStroke(0)
-				fill('brown')
-				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
-
+			drawLeaves(leavesStartX, leavesStartY) {
 				fill(this.leafColor())
-				var leafStartY = this.y - this.treeSize;
-				ellipse(this.x, leafStartY, this.treeSize);
+				ellipse(leavesStartX, leavesStartY, this.treeSize);
 
 				for (var i = 0; i < this.leafCount; i++) {
 					var angle =  i / this.leafCount * 2 * PI;
-					ellipse(this.x + cos(angle) * this.treeSize / 4, leafStartY + sin(angle) * this.treeSize / 4, this.treeSize)
+					ellipse(leavesStartX + cos(angle) * this.treeSize / 4, leavesStartY + sin(angle) * this.treeSize / 4, this.treeSize)
 				}
 			}
 		}
 
 		class EvergreenTree extends Tree {
-			draw() {
-				noStroke(0)
-				fill('brown')
-				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
+			static get colorLifeCycle() {
+				return [
+				color(0,204,102),
+				color(0,102,0),
+				color(102,51,0)
+				]
+			}
 
-				fill(this.leafColor())
-								var leafStartY = this.y - this.treeSize;
+			drawLeaves(leavesStartX, leavesStartY) {
+				fill(this.leafColor());
+
 				for (var i = 0; i < this.leafCount; i++) {
-					var yBottom = leafStartY + this.treeSize / 2 - (i-0.5) * this.treeSize / this.leafCount;
-					var yTop = leafStartY + this.treeSize / 2 - (i + 1) * this.treeSize / this.leafCount;
+					var yBottom = leavesStartY + this.treeSize / 2 - (i-0.5) * this.treeSize / this.leafCount;
+					var yTop = leavesStartY + this.treeSize / 2 - (i + 1) * this.treeSize / this.leafCount;
 					var width = this.treeSize * (this.leafCount - i) / this.leafCount;
-					triangle(this.x - width / 2, yBottom, this.x, yTop, this.x + width / 2, yBottom)
+					triangle(leavesStartX - width / 2, yBottom, this.x, yTop, leavesStartX + width / 2, yBottom)
 				}
 			}
 		}
 
 		let trees = [];
-		const TREE_TYPES = [BasicTree, EvergreenTree, BumpyTree];
+		const TREE_TYPES = [Tree, EvergreenTree, BumpyTree];
 
 		function setup() {
 			cycle = 0;
