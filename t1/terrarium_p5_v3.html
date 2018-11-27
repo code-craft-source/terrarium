@@ -1,0 +1,150 @@
+<html>
+<head>
+	<!-- Import P5 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+</head>
+<body>
+	<script type='text/javascript'>
+		const CANVAS_HEIGHT = 800;
+		const CANVAS_WIDTH = 800;
+		// Defines the maximum starting size for trees
+		const START_SIZE = 75;
+		// The chance that a tree will spawn each draw
+		const SPAWN_CHANCE = 0.25;
+		// The maximum number of draws a tree will live
+		const TREE_MAX_AGE = 300;
+		// The rate of growth for a tree per draw
+		const GROW_RATE = 0.25;
+		// Toggle to display stats on trees
+		const DISPLAY_STATS = false;
+		let cycle;
+
+		class Tree {
+			static get colorLifeCycle() {
+				return [
+				color(0,204,102),
+				color(0,102,0),
+				color(255,215,0),
+				color(255,128,0),
+				color(102,51,0)
+				]
+			}
+
+			constructor(x, y, leafCount, maxAge, treeSize) {
+				this.x = x;
+				this.y = y;
+				this.currentAge = 1;
+				this.maxAge = maxAge;
+				this.leafCount = leafCount;
+				this.treeSize = treeSize;
+			}
+
+			age() {
+				this.currentAge += 1;
+				this.treeSize += GROW_RATE;
+				return this.currentAge < this.maxAge;
+			}
+
+			displayStats() {
+				fill('black');
+				textAlign(CENTER);
+				textSize(15);
+				text(`Size: ${Math.floor(this.treeSize)}`, this.x, this.y - 10)
+				text(`Age: ${this.currentAge}`, this.x, this.y + 10)
+			}
+
+			leafColor() {
+				var agePerStep = this.maxAge / (this.constructor.colorLifeCycle.length - 1);
+				var currentCycle = Math.floor(this.currentAge / this.maxAge * (this.constructor.colorLifeCycle.length - 1))
+
+				return lerpColor(this.constructor.colorLifeCycle[currentCycle], this.constructor.colorLifeCycle[currentCycle + 1], (this.currentAge % agePerStep) / agePerStep)
+			}
+
+			draw() {
+				noStroke()
+				this.drawTrunk();
+				this.drawLeaves(this.x, this.y - this.treeSize);
+			}
+
+			drawTrunk() {
+				fill('brown')
+				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
+			}
+
+			drawLeaves(leavesStartX, leavesStartY) {
+				fill(this.leafColor())
+				ellipse(leavesStartX, leavesStartY, this.treeSize);
+			}
+		}
+
+		class BumpyTree extends Tree {
+			drawLeaves(leavesStartX, leavesStartY) {
+				fill(this.leafColor())
+				ellipse(leavesStartX, leavesStartY, this.treeSize);
+
+				for (var i = 0; i < this.leafCount; i++) {
+					var angle =  i / this.leafCount * 2 * PI;
+					ellipse(leavesStartX + cos(angle) * this.treeSize / 4, leavesStartY + sin(angle) * this.treeSize / 4, this.treeSize)
+				}
+			}
+		}
+
+		class EvergreenTree extends Tree {
+			static get colorLifeCycle() {
+				return [
+				color(0,204,102),
+				color(0,102,0),
+				color(102,51,0)
+				]
+			}
+
+			drawLeaves(leavesStartX, leavesStartY) {
+				fill(this.leafColor());
+
+				for (var i = 0; i < this.leafCount; i++) {
+					var yBottom = leavesStartY + this.treeSize / 2 - (i-0.5) * this.treeSize / this.leafCount;
+					var yTop = leavesStartY + this.treeSize / 2 - (i + 1) * this.treeSize / this.leafCount;
+					var width = this.treeSize * (this.leafCount - i) / this.leafCount;
+					triangle(leavesStartX - width / 2, yBottom, this.x, yTop, leavesStartX + width / 2, yBottom)
+				}
+			}
+		}
+
+		let trees = [];
+		const TREE_TYPES = [Tree, EvergreenTree, BumpyTree];
+
+		function setup() {
+			cycle = 0;
+			frameRate(8);
+		}
+
+		function draw() {
+			createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+			background('lightyellow');
+			if (trees.length === 0 || random() < SPAWN_CHANCE) {
+				generateTree();
+			}
+			trees = trees.reduce((newTrees, tree) => {
+				var treeSurvived = tree.age();
+				if (treeSurvived) {
+					newTrees.push(tree);
+				}
+				return newTrees;
+			}, []).sort((a, b) => a.y - b. y);
+			trees.forEach(tree => tree.draw());
+			trees.forEach(tree => {
+				if (DISPLAY_STATS) {
+					tree.displayStats()
+				}
+			})
+			cycle += 1;
+		}
+
+		function generateTree() {
+			var TreeType = TREE_TYPES[Math.floor(random(TREE_TYPES.length))]
+			trees.push(new TreeType(random(width), random(height),Math.floor(random(4,9)), Math.floor(random(TREE_MAX_AGE * 0.5,TREE_MAX_AGE)), Math.floor(random(START_SIZE * 0.5, START_SIZE))))
+		}
+
+	</script>
+</body>
+</html>

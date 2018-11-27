@@ -1,0 +1,194 @@
+<html>
+<head>
+	<!-- Import Woofjs -->
+	<script src='https://rawgit.com/stevekrouse/WoofJS/master/dist/woof.js'></script>
+</head>
+<body>
+	<script type='text/javascript'>
+		// Set up our  plant image constants
+		var PLANT_IMAGE = 'https://mbtskoudsalg.com/images250_/africa-tree-png.png';
+		var PLANT_HEIGHT = 100;
+		var PLANT_WIDTH = 117;
+
+		// Set button constants
+		var MINUS_BUTTON = 'https://image.flaticon.com/icons/png/512/25/25232.png';
+		var PLUS_BUTTON = 'http://cdn.onlinewebfonts.com/svg/img_84809.png';
+
+		// Height/Width of buttons
+		var BUTTON_SIZE = 40;
+		// Width of description text for buttons
+		var DESCRIPTION_WIDTH = 200;
+		// Size of text in description blocks
+		var DESCRIPTION_TEXT_SIZE = BUTTON_SIZE / 2;
+
+		// Set up our control variables
+		// plantMaxAge controls the # of seconds a plant should "live" for before being deleted
+		var plantMaxAge = 10;
+		// plantSpawnRate controls how many seconds we should wait before spawing a new plant
+		var plantSpawnRate = 5;
+		// currentCycle represents how many seconds the terrarium has been active for
+		var currentCycle = 0;
+
+		// Create an organism class, this will be the root of all creatures in our terrarium
+		class Organism {
+			// Use the constructor method to create a new Image from the input URL, height, and width. This lets us vary what a organism looks like dynamically. maxAge allows us to define how long the organism should live for.
+			// constructor - start
+			constructor(url, height, width, maxAge) {
+				// Create the organism's sprite
+				this.sprite =  new Image({
+					x: randomX(), // Place at a random X position
+					y: randomY(), // Place at a random Y position
+					height, // Use input height
+					width, // Use input width
+					url // Use input URL
+				})
+
+				this.currentAge = 0; // All organisms start at age 0
+				this.maxAge = maxAge; // set maxAge for the Organism
+			} // constructor - end
+
+			// Create an age function to represent time passing for the organism. Age should increment the organism's age, and if it's too old, it should be deleted. Return true if the Organism survives the aging.
+			// age - start
+			age(time) {
+				// Increment the currentAge by time (how much time has passed)
+				this.currentAge += time;
+				// if - if the Organism is older than the max age, delete it and return false (Organism no longer "lives")
+				if (this.currentAge > this.maxAge) {
+					// Delete the sprite from the screen
+					this.sprite.delete();
+					// Return false - the Organism is no longe "alive"
+					return false;
+				} // if - end
+
+				// Return true -  the organism lives
+				return true;
+			} // age -end
+		}
+
+		// Set a backdrop for the terrarium. Use the 'cover' style to prevent stretching
+		setBackdropURL('http://cdn.playbuzz.com/cdn/cba9f74c-4723-45ee-8e74-3603f0109cff/596ce476-c2ae-442b-99a3-18a90ab3496b.jpg')
+		setBackdropStyle('cover');
+
+		// plants is an array of all plants that are currently "alive"
+		var plants = [];
+
+		// every - every second we should age() our organisms by 1. If an organism dies from aging, we should remove it from the plants array
+		every(1, "second", () => {
+			// reduce - Use reduce to create a new list of plants, only including those that did not die. This can also be done with map and filter, or forEach and push, or any other number of ways
+			plants = plants.reduce((newPlants, plant) => {
+				// age the plant, and store if it survived
+				var plantSurvived = plant.age(1);
+				// if the plant survived, push it to new plants to maintain it. Else, throw it away
+				if (plantSurvived) {
+					// Push plant to newPlants (saving it)
+					newPlants.push(plant);
+				}
+				// Return newPlants to be used on the next reduce loop
+				return newPlants;
+			}, []); // reduce -end
+		}); // every - end
+		
+		// every - every second, increment the cycle and spawn new plants
+		every(1, "second", () => {
+			// Increment the cycle
+			currentCycle += 1;
+			// if - use % (modulo) to determine if this is a spawn cycle. Equivalent to saying "Every plantSpawnRate seconds, spawn a new plant"
+			if (currentCycle % plantSpawnRate === 0) {
+				// Create a new plant Organism using the PLANT constants and the current max age setting
+				var plant = new Organism(PLANT_IMAGE, PLANT_HEIGHT, PLANT_WIDTH, plantMaxAge);
+				plants.push(plant)
+			} // if - end
+		}); // every - end
+
+		// Display a counter of how many plants currently exists
+		var plantCounter = new Text({
+			x: minX,
+			y: maxY - BUTTON_SIZE / 2,
+			size: DESCRIPTION_TEXT_SIZE,
+			textAlign: 'left'
+		});
+
+		// Display a counter of current max age for plants
+		var plantMaxAgeCounter = new Text({
+			x: maxX - (BUTTON_SIZE + DESCRIPTION_WIDTH / 2),
+			y: maxY - BUTTON_SIZE / 2,
+			size: DESCRIPTION_TEXT_SIZE,
+			textAlign: 'center'
+		});
+
+		// Display a counter of current spawn for plants
+		var plantSpawnRateCounter = new Text({
+			x: maxX - (BUTTON_SIZE + DESCRIPTION_WIDTH / 2),
+			y: maxY - BUTTON_SIZE * 2,
+			size: DESCRIPTION_TEXT_SIZE,
+			textAlign: 'center'
+		});
+
+		// forever - update our counter displays
+		forever(() => {
+			// Set plantCounter to show the current number of plants
+			plantCounter.text = `Plant Count: ${plants.length}`;
+			// plantMaxAgeCounter to show the current maxAge of plants
+			plantMaxAgeCounter.text=`Max Age: ${plantMaxAge}`;
+			// plantSpawnRateCounter to show the current maxAge of plants
+			plantSpawnRateCounter.text = `Spawn Rate: ${plantSpawnRate}`;
+		}); // forever - end
+
+		// Create maxAgeDecrementButton to decrement the maxAge for plants
+		var maxAgeDecrementButton = new Image({
+			width: BUTTON_SIZE, 
+			height: BUTTON_SIZE,
+			// Offset decrement button to left of description
+			x: maxX - (DESCRIPTION_WIDTH + BUTTON_SIZE + BUTTON_SIZE / 2),
+			y: maxY - BUTTON_SIZE / 2,
+			url: MINUS_BUTTON
+		});
+		// onMouseDown - when the decrement button is clicked, decrease plantMaxAge
+		maxAgeDecrementButton.onMouseDown(() => {
+			plantMaxAge -= 1
+		}); // onMouseDown - end
+
+		// Create maxAgeIncrementButton to increment the maxAge for plants
+		var maxAgeIncrementButton = new Image({
+			width: BUTTON_SIZE, 
+			height: BUTTON_SIZE,
+			x: maxX - BUTTON_SIZE / 2,
+			y: maxY - BUTTON_SIZE / 2,
+			url: PLUS_BUTTON
+		});
+		// onMouseDown - when the increment button is clicked, increase plantMaxAge
+		maxAgeIncrementButton.onMouseDown(() => {
+			plantMaxAge += 1
+		}); // onMouseDown - end
+
+		// Create plantSpawnRateDecrementButton to decrement the plantSpawnRate
+		var plantSpawnRateDecrementButton = new Image({
+			width: BUTTON_SIZE, 
+			height: BUTTON_SIZE,
+			// Offset decrement button to left of description
+			x: maxX - (DESCRIPTION_WIDTH + BUTTON_SIZE + BUTTON_SIZE / 2),
+			// Offset Spawn Rate row below maxAge
+			y: maxY - BUTTON_SIZE * 2,
+			url: MINUS_BUTTON
+		});
+		// onMouseDown - when the decrment button is clicked, decrease plantSpawnRate
+		plantSpawnRateDecrementButton.onMouseDown(() => {
+			plantSpawnRate -= 1
+		}); // onMouseDown - end
+
+		// Create plantSpawnRateDecrementButton to increment the plantSpawnRate
+		var plantSpawnRateIncrementButton = new Image({
+			width: BUTTON_SIZE, 
+			height: BUTTON_SIZE,
+			x: maxX - BUTTON_SIZE / 2,
+			// Offset Spawn Rate row below maxAge
+			y: maxY - BUTTON_SIZE * 2,
+			url: PLUS_BUTTON
+		});
+		// onMouseDown - when the increment button is clicked, increase plantSpawnRate
+		plantSpawnRateIncrementButton.onMouseDown(() => {
+			plantSpawnRate += 1
+		}); // onMouseDown - end
+	</script>
+</body>
+</html>
