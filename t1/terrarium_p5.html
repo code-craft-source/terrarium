@@ -15,6 +15,8 @@
 		const TREE_MAX_AGE = 300;
 		// The rate of growth for a tree per draw
 		const GROW_RATE = 0.25;
+		// Rate of decay for dead trees
+		const DECAY_RATE = 5;
 		// Toggle to display stats on trees
 		const DISPLAY_STATS = false;
 		let cycle;
@@ -36,17 +38,25 @@
 				this.currentAge = 1;
 				this.maxAge = maxAge;
 				this.leafCount = leafCount;
+				this.opacity = 255;
 				this.treeSize = treeSize;
 			}
 
 			age() {
 				this.currentAge += 1;
-				this.treeSize += GROW_RATE;
+				if (this.currentAge < this.maxAge) {
+					this.treeSize += GROW_RATE;
+					return true;
+				} else {
+					this.opacity -= DECAY_RATE;
+					return this.opacity > 0;
+				}
+				
 				return this.currentAge < this.maxAge;
 			}
 
 			displayStats() {
-				fill('black');
+				fill(0,0,0, this.opacity);
 				textAlign(CENTER);
 				textSize(15);
 				text(`Size: ${Math.floor(this.treeSize)}`, this.x, this.y - 10)
@@ -54,10 +64,17 @@
 			}
 
 			leafColor() {
-				var agePerStep = this.maxAge / (this.constructor.colorLifeCycle.length - 1);
-				var currentCycle = Math.floor(this.currentAge / this.maxAge * (this.constructor.colorLifeCycle.length - 1))
+				if (this.currentAge < this.maxAge) {
+					var agePerStep = this.maxAge / (this.constructor.colorLifeCycle.length - 1);
+				var currentCycle = Math.floor(this.currentAge / this.maxAge * (this.constructor.colorLifeCycle.length - 1));
 
-				return lerpColor(this.constructor.colorLifeCycle[currentCycle], this.constructor.colorLifeCycle[currentCycle + 1], (this.currentAge % agePerStep) / agePerStep)
+				return lerpColor(this.constructor.colorLifeCycle[currentCycle], this.constructor.colorLifeCycle[currentCycle + 1], (this.currentAge % agePerStep) / agePerStep);
+				}
+
+				var finalColor = this.constructor.colorLifeCycle[this.constructor.colorLifeCycle.length - 1];
+
+				finalColor.setAlpha(this.opacity);
+				return finalColor;
 			}
 
 			draw() {
@@ -67,7 +84,7 @@
 			}
 
 			drawTrunk() {
-				fill('brown')
+				fill(135,54,0,this.opacity)
 				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
 			}
 
@@ -142,7 +159,8 @@
 
 		function generateTree() {
 			var TreeType = TREE_TYPES[Math.floor(random(TREE_TYPES.length))]
-			trees.push(new TreeType(random(width), random(height),Math.floor(random(4,9)), Math.floor(random(TREE_MAX_AGE * 0.5,TREE_MAX_AGE)), Math.floor(random(START_SIZE * 0.5, START_SIZE))))
+			// TREE CONSTRUCTOR --> constructor(x, y, leafCount, maxAge, treeSize) {
+			trees.push(new TreeType(random(width), random(height),Math.floor(random(6,9)), Math.floor(random(TREE_MAX_AGE * 0.5,TREE_MAX_AGE)), Math.floor(random(START_SIZE * 0.5, START_SIZE))))
 		}
 
 	</script>
