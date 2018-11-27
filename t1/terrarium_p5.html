@@ -5,164 +5,293 @@
 </head>
 <body>
 	<script type='text/javascript'>
-		const CANVAS_HEIGHT = 800;
-		const CANVAS_WIDTH = 800;
+		// Set Canvas size constraints
+		var CANVAS_HEIGHT = 800;
+		var CANVAS_WIDTH = 800;
+		// Set frame rate to control how quickly trees age
+		var FRAME_RATE = 8;
 		// Defines the maximum starting size for trees
-		const START_SIZE = 75;
+		var START_SIZE = 75;
 		// The chance that a tree will spawn each draw
-		const SPAWN_CHANCE = 0.25;
+		var SPAWN_CHANCE = 0.25;
 		// The maximum number of draws a tree will live
-		const TREE_MAX_AGE = 300;
+		var TREE_MAX_AGE = 300;
 		// The rate of growth for a tree per draw
-		const GROW_RATE = 0.25;
+		var GROW_RATE = 0.25;
 		// Rate of decay for dead trees
-		const DECAY_RATE = 5;
+		var DECAY_RATE = 7;
 		// Toggle to display stats on trees
-		const DISPLAY_STATS = false;
-		let cycle;
+		var DISPLAY_STATS = false;
+		// Display text size
+		var DISPLAY_TEXT_SIZE = 15;
+		// Minimum and maximum leaf counts
+		var MIN_LEAVES = 6;
+		var MAX_LEAVES = 10;
 
+		// start Tree
 		class Tree {
+			// colorLifeCycle - Color stages for a trees lifecycle
 			static get colorLifeCycle() {
 				return [
+				// light green
 				color(0,204,102),
+				// dark green
 				color(0,102,0),
+				// yellow
 				color(255,215,0),
+				// orange
 				color(255,128,0),
+				// brown
 				color(102,51,0)
-				]
-			}
+				];
+			} // end colorLifeCycle
 
+			// constructor to create a new tree
 			constructor(x, y, leafCount, maxAge, treeSize) {
+				// x position of the tree's base
 				this.x = x;
+				// y position of the tree's base
 				this.y = y;
+				// The tree's current age
 				this.currentAge = 1;
+				// The maximum age this tree will reach before decaying
 				this.maxAge = maxAge;
+				// How many leaves should this tree have
 				this.leafCount = leafCount;
+				// Opacity for the tree (255 is fully opaque)
 				this.opacity = 255;
+				// Startung size for this tree
 				this.treeSize = treeSize;
-			}
+			} // end constructor
 
+			// age handle all changes that occur as a tree ages. Returns tree if the tree still exists
 			age() {
+				// Increment the trees current age
 				this.currentAge += 1;
+				// If the tree hasn't reached its max age, grow it
 				if (this.currentAge < this.maxAge) {
+					// Increment the tree's size
 					this.treeSize += GROW_RATE;
+					// return true (tree still exists)
 					return true;
-				} else {
+				} else { // else the tree is decaying
+					// decrease the tree's opacity by the decay rate
 					this.opacity -= DECAY_RATE;
+					// return true if the tree is visible, false if not
 					return this.opacity > 0;
-				}
-				
-				return this.currentAge < this.maxAge;
-			}
+				} //end if, else
+			} // end age
 
+			// displayStats - Show the tree's attributes in text
 			displayStats() {
+				// set the fill to black
 				fill(0,0,0, this.opacity);
+				// align the display text to center on the tree
 				textAlign(CENTER);
-				textSize(15);
-				text(`Size: ${Math.floor(this.treeSize)}`, this.x, this.y - 10)
-				text(`Age: ${this.currentAge}`, this.x, this.y + 10)
-			}
+				// set text size to
+				textSize(DISPLAY_TEXT_SIZE);
+				// Display the tree's size
+				text(`Size: ${Math.floor(this.treeSize)}`, this.x, this.y - 10);
+				// Display the tree's age below its size
+				text(`Age: ${this.currentAge}`, this.x, this.y + 10);
+			} // end displayStats
 
+			// leafColor returns the current color of the tree's leaves
 			leafColor() {
+				// color to display for the leaves
+				var displayColor;
+
+				// if tree is below its max age, fade between its lifecyle colorsycle
 				if (this.currentAge < this.maxAge) {
+					// calculate how many age steps per lifecycle color
 					var agePerStep = this.maxAge / (this.constructor.colorLifeCycle.length - 1);
-				var currentCycle = Math.floor(this.currentAge / this.maxAge * (this.constructor.colorLifeCycle.length - 1));
+					// Calculate the current lifecycle color index
+					var currentCycle = Math.floor(this.currentAge / this.maxAge * (this.constructor.colorLifeCycle.length - 1));
 
-				return lerpColor(this.constructor.colorLifeCycle[currentCycle], this.constructor.colorLifeCycle[currentCycle + 1], (this.currentAge % agePerStep) / agePerStep);
+					// the color the tree is transitioning from
+					var fromColor = this.constructor.colorLifeCycle[currentCycle];
+					// the color the tree is transitioning to
+					var toColor =this.constructor.colorLifeCycle[currentCycle + 1];
+					// the percentage that the tree has transitioned to the new color
+					var transitionPercent = (this.currentAge % agePerStep) / agePerStep;
+
+					// use lerpColor to calculate the transition color and set displayColor equal to it
+					displayColor = lerpColor(fromColor, toColor, transitionPercent);
+				} else { // else maintain the final life cycle color
+					// Set displayColor to the final color of the tree
+					displayColor = this.constructor.colorLifeCycle[this.constructor.colorLifeCycle.length - 1];
 				}
 
-				var finalColor = this.constructor.colorLifeCycle[this.constructor.colorLifeCycle.length - 1];
+				// set the leaf color's opacity to the tree's opacity
+				displayColor.setAlpha(this.opacity);
+				// return the calculated color
+				return displayColor;
+			} // end leafColor
 
-				finalColor.setAlpha(this.opacity);
-				return finalColor;
-			}
-
+			// draw - draw the tree on the canvas
 			draw() {
-				noStroke()
+				// don't draw trees with a stroke
+				noStroke();
+				// draw the tree's trunk
 				this.drawTrunk();
+				// set the fill to the current leafColor
+				fill(this.leafColor())
+				// draw leaves, starting them at top of the trunk
 				this.drawLeaves(this.x, this.y - this.treeSize);
-			}
+			} // end draw
 
+			// drawTrunk - draws the tree's trunk on the canvas
 			drawTrunk() {
-				fill(135,54,0,this.opacity)
-				rect(this.x - this.treeSize / 10 / 2, this.y - this.treeSize, this.treeSize / 10, this.treeSize)
-			}
+				// set the trunk to be brown, and fade as it decays
+				fill(135,54,0,this.opacity);
+				// calculate the top left X position of the trunk
+				var topLeftXPos = this.x - this.treeSize / 10 / 2; 
+				// calculate the top left Y position of the trunk
+				var topLeftYPos = this.y - this.treeSize;
+				// calculate the width of the trunk
+				var trunkWidth = this.treeSize / 10;
+				// calculate the trunk height
+				var trunkHeight = this.treeSize;
+				// draw the trunk
+				rect(topLeftXPos, topLeftYPos, trunkWidth, trunkHeight)
+			} // end - drawTrunk
 
+			// drawLeaves - draw the tree's leaves on the canvas, default is one circle
 			drawLeaves(leavesStartX, leavesStartY) {
-				fill(this.leafColor())
+				// Draw one circular leaf
 				ellipse(leavesStartX, leavesStartY, this.treeSize);
-			}
-		}
+			} // end drawLeaves
+		} // end Tree
 
+		// BumpyTree is a tree subclass that looks like a cloud
 		class BumpyTree extends Tree {
+			// drawLeaves - overwrites the super class method
 			drawLeaves(leavesStartX, leavesStartY) {
-				fill(this.leafColor())
+				// Draw one large circular leaf that trunk-top
 				ellipse(leavesStartX, leavesStartY, this.treeSize);
 
+				// for leafCount leaves around the initial leaf's edge
 				for (var i = 0; i < this.leafCount; i++) {
+					// calulate the leaf's angle along the central leaf
 					var angle =  i / this.leafCount * 2 * PI;
-					ellipse(leavesStartX + cos(angle) * this.treeSize / 4, leavesStartY + sin(angle) * this.treeSize / 4, this.treeSize)
-				}
-			}
+					// calculate the new leaf's X position using its angle
+					var leafXPos = leavesStartX + cos(angle) * this.treeSize / 4;
+					// calculate the new leaf's Y position using its angle
+					var leafYPos = leavesStartY + sin(angle) * this.treeSize / 4;
+					// draw the new leaf at its calculated position
+					ellipse(leafXPos, leafYPos, this.treeSize);
+				} // end for
+			} // end drawLeaves
 		}
 
 		class EvergreenTree extends Tree {
+			// colorLifeCycle - returns a new lifecyle for evergreen trees, which never turn yellow or orange;
 			static get colorLifeCycle() {
 				return [
+				// light green
 				color(0,204,102),
+				// dark green
 				color(0,102,0),
+				// brown
 				color(102,51,0)
-				]
-			}
+				];
+			} // end colorLifeCycle
 
+			// drawLeaves - Evergreen trees have triangular leaves
 			drawLeaves(leavesStartX, leavesStartY) {
-				fill(this.leafColor());
-
+				// for leafCount leaves as stacking triangles
 				for (var i = 0; i < this.leafCount; i++) {
+					// calulate the bottom y position of the triangle
 					var yBottom = leavesStartY + this.treeSize / 2 - (i-0.5) * this.treeSize / this.leafCount;
+					// calculate the top y position as the triangle
 					var yTop = leavesStartY + this.treeSize / 2 - (i + 1) * this.treeSize / this.leafCount;
+					// calculate the triangles width, it gets smaller as it gets higher
 					var width = this.treeSize * (this.leafCount - i) / this.leafCount;
+					// draw the triangular leaf
 					triangle(leavesStartX - width / 2, yBottom, this.x, yTop, leavesStartX + width / 2, yBottom)
-				}
-			}
+				} // end for
+			} // end drawLeaves
 		}
 
-		let trees = [];
-		const TREE_TYPES = [Tree, EvergreenTree, BumpyTree];
+		// Create the lsit of current trees
+		var trees = [];
+		// Tree types that can be selected for display
+		var TREE_TYPES = [Tree, EvergreenTree, BumpyTree];
 
+		// setup - initial setup function for the project
 		function setup() {
-			cycle = 0;
-			frameRate(8);
-		}
+			// set the frame rate to the FrameRate setting
+			frameRate(FRAME_RATE);
+		} // end setup
 
+		// draw - executed FRAME_RATE times per second
 		function draw() {
+			// reset the canvas each frame
 			createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 			background('lightyellow');
-			if (trees.length === 0 || random() < SPAWN_CHANCE) {
+
+			// randomly spawn a tree with SPAWN_CHANCE probability
+			var shouldSpawn = random() < SPAWN_CHANCE;
+			// if no trees exist, or we should spawn one randomly, generate a tree
+			if (trees.length === 0 || shouldSpawn) {
+				// generate a new tree
 				generateTree();
-			}
-			trees = trees.reduce((newTrees, tree) => {
-				var treeSurvived = tree.age();
-				if (treeSurvived) {
-					newTrees.push(tree);
-				}
-				return newTrees;
-			}, []).sort((a, b) => a.y - b. y);
+			} // end if
+
+			// Create a new list of trees that are still visible
+			var visibleTrees = [];
+			// forEach - age each tree, and if its still visible add it to the visible trees list 
+			trees = trees.forEach((tree) => {
+				// Age the tree, and store its visiblity
+				var treeVisible = tree.age();
+				// if the tree is visible add it visible trees
+				if (treeVisible) {
+					// add the tree to visible trees
+					visibleTrees.push(tree);
+				} // end if
+			}); // end forEach
+
+			// set trees to onle be the visible ones
+			trees = visibleTrees;
+			// sort the trees by their y position so trees appear in the background if they are high up to create depth
+			trees.sort((a, b) => a.y - b. y);
+			// draw each tree
 			trees.forEach(tree => tree.draw());
+			// forEach - display each tree's stats if DISPLAY_STATS is set
 			trees.forEach(tree => {
+				// if - if DISPLAY_STATS is true, draw the tree's stats
 				if (DISPLAY_STATS) {
-					tree.displayStats()
-				}
-			})
-			cycle += 1;
-		}
+					// draw the tree's stats
+					tree.displayStats();
+				} // end if
+			}); // end forEach
+		} // end draw
 
+		// generateTree - creates a new tree for display
 		function generateTree() {
-			var TreeType = TREE_TYPES[Math.floor(random(TREE_TYPES.length))]
-			// TREE CONSTRUCTOR --> constructor(x, y, leafCount, maxAge, treeSize) {
-			trees.push(new TreeType(random(width), random(height),Math.floor(random(6,9)), Math.floor(random(TREE_MAX_AGE * 0.5,TREE_MAX_AGE)), Math.floor(random(START_SIZE * 0.5, START_SIZE))))
-		}
+			// Randomly select a TreeType from the TreeTypes list
+			var randomTreeTypeIndex = Math.floor(random(TREE_TYPES.length));
+			var TreeType = TREE_TYPES[randomTreeTypeIndex];
 
+			// Randomly select the tree's root position on the canvas
+			var treeRootXPos = random(width);
+			var treeRootYPos = random(height);
+
+			// Randomly select the number of tree leaves
+			var leafCount = Math.floor(random(MIN_LEAVES, MAX_LEAVES));
+
+			// Randomly select the tree's maximum age
+			var maxAge = Math.floor(random(TREE_MAX_AGE * 0.5,TREE_MAX_AGE));
+
+			// Randomly select the tree's starting size
+			var treeSize = Math.floor(random(START_SIZE * 0.5, START_SIZE));
+
+			// generate the new tree using it's classes constructor
+			var generatedTree = new TreeType(treeRootXPos, treeRootYPos, leafCount, maxAge, treeSize);
+
+			// push the tree to the active tree list
+			trees.push(generatedTree);
+		} // end generateTree
 	</script>
 </body>
 </html>
