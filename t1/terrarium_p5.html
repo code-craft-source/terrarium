@@ -220,6 +220,8 @@
 
 		// setup - initial setup function for the project
 		function setup() {
+			// Create the canvas
+			createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 			// set the frame rate to the FrameRate setting
 			frameRate(FRAME_RATE);
 		} // end setup
@@ -227,7 +229,6 @@
 		// draw - executed FRAME_RATE times per second
 		function draw() {
 			// reset the canvas each frame
-			createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 			background('lightyellow');
 
 			// randomly spawn a tree with SPAWN_CHANCE probability

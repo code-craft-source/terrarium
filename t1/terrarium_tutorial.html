@@ -1,0 +1,182 @@
+<html>
+<head>
+<title>Tutorial: Crab Hunt
+</title>
+<style>
+
+</style>
+
+<link rel="stylesheet" type="text/css" href="http://www.learncodecraft.com/tutorials/tut-styles.css" />
+
+</head>
+
+<body>
+<center>
+<img width = 300 src = "http://www.learncodecraft.com/images/cc_logo_2.png"><br>
+<font face="avenir">
+<p>
+<h2>Terrarium</h2>
+<br>
+<table width = "100%">
+<colgroup>
+<col width="100 px"/>
+<col width="400 px"/>
+<col width="100 px"/>
+</colgroup>
+<tr>
+<td></td>
+<td align = justify>
+Here is a fun starter game to get familiar with P5 and Javascript classes. Create a tree from simple shapes and watch them spawn, grow, age, and fade away over time.
+<br><br>
+Here is an <a href = "terrarium_p5.html"> example of a completed terrarium</a>
+<br><br>
+See p5 documentation here: <a href = "https://p5js.org/reference/">https://p5js.org/reference/</a>
+<br>
+See JS Class documentation<a href = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">here</a>
+<br>
+<br>
+
+</td>
+<td></td>
+</tr></table>
+
+
+<table width = "100%">
+<colgroup>
+<col width="100 px"/>
+<col width="400 px"/>
+<col width="100 px"/>
+</colgroup>
+<tr>
+<td></td>
+<td align = "center"><br><br><b>Directions</b></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align = left>
+<ol style="margin-left: 10px;">
+	<li>Set up your HTML page, insert the p5.js source tags into the  &lt;head&gt;section of your project page:
+  <p class="tab"><font color="blue" face="courier"> 
+ &lt;script src= "https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"&gt;&lt;/script&gt;<br>
+
+ &lt;script src= "http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/addons/p5.dom.js"&gt;&lt;/script&gt;
+</font>	</p>
+Your code now speaks P5!
+<br>
+<br>
+<li>In the <b>setup()</b> function, create a canvas.</li>
+<br>
+<li>In the <b>draw()</b> function, set your background color to something light.</li>
+<br>
+<li>It's time to draw a tree! First draw a trunk using the <b>line()</b> or <b>rect()</b> functions. The base of your trunk should be at the screen's center. Make sure to color it nicely as well!</li>
+<br>
+<li>Once you have your trunk, give it some leaves. Get creative and use the p5 shapes you desire. Make sure to color your leaves as well.</li>
+<br>
+<li>Our terrarium should have many trees though. Much like a real forest we'll have trees of different sizes, ages, and shapes. To make this possible we will use a Javascript <b>class</b>. A class is a custom object that we will define and use, as opposed to classes that come built into JS like numbers or arrays. For example, a program might define a <b>Cat</b> class that has properties like <b>color</b>, <b>age</b>, and <b>size</b>, it might also have a function <b>meow()</b> that makes the cat's signature sound. Your tree class should start out simply with something like:
+<p class="code">
+// This is the syntax to declare a new class
+class Tree {
+  // This function will draw our tree for us
+  show() {
+    // Your trunk and leaves code can go here
+  }
+}
+</p>
+</li>
+<br>
+<li>With our Tree class in hand, we can create a new tree easily using the <b>new</b> keyword. Try creating your tree and calling its <b>show()</b> function.</li>
+<br>
+<li>Now let's give each tree its own positional <b>properties</b>. We can do that by using our class's <b>constructor()</b>. <b>Tree</b>'s <b>constructor</b> is called everytime we call <b>new</b> and can set initial <b>properties</b> for that new tree. 
+<p class="code">
+// This is the syntax to declare a new class
+class Tree {
+  // constructor is called whenever new is used to create a tree
+  constructor(x, y) {
+    // Set the tree's x and y positions to properties here
+  }
+
+  // This function will draw our tree for us
+  show() {
+    // Your trunk and leaves code can go here
+    // Use the tree's x and y position properties to place the tree
+  }
+}
+</p>
+</li>
+<li>Create a <b>trees</b> array. Every few seconds create a tree using at a random position using <b>new</b> to call its <b>constructor</b> function. Be sure to call <b>show()</b> for each tree so that displays on your canvas. You should now see a forest growing!
+</li>
+<br>
+<li>Let's begin growing our trees. Give the <b>Tree</b> class a <b>size</b> <b>property</b> and use it to control the size of its trunk and leaves when you draw it.
+</li>
+<br>
+<li>Create an <b>age()</b> function that is called in your <b>draw()</b> function. This function should increase your tree's size, causing your tree to grow overtime</li>
+<br>
+<li>At this point, you'll have created a forest of immortal trees that grow indefinitely. To prevent that, let's stop our trees from living forever. Create a <b>currentAge</b> <b>property</b> for our <b>Tree</b> class. In our <b>age()</b> function increment the <b>currentAge</b> property. Finally, set a <b>maxAge</b> for trees. Trees with a <b>currentAge</b> beyond their <b>maxAge</b> should no longer call <b>show()</b>. BONUS: How can we fade our trees gently away, rather than having them suddenly disappear?
+</li>
+<br>
+<li>Let's add some more colors to our forest. Change a <b>Tree</b>'s leaf color based on its <b>currentAge</b> to show time is passing. BONUS: How can we make the color changes smooth?</li>
+<br>
+<li>We should now have a vibrant forest full of colors and activity. However, a forest is not full of identical trees. Add some randomization to your trees so that each one is different. For example, you could vary the number of leaves, their positions, or anything you can think of!</li>
+<br>
+<li> Now our forest is looking beautiful and varied, but a forest is full of multiple varieties of trees such as pines, oaks, birch, maple and more! We can use classes to help us create whole new varieties of trees. To begin let's clean up our <b>Tree</b> class by moving some code around. Create three new functions: <b>showTrunk()</b> (which shows the tree's trunk), <b>showLeaves()</b> (which shows the tree's leaves), and <b>leafColor()</b> (which pick's the tree's leaf color based on its age). Call these new functions appropiately in your <b>show()</b> function and ensure your forest functions the same way.
+</li>
+<br>
+<li>Create a new <b>subclass</b> of our tree function. A <b>subclass</b> is a new <b>class</b> that inherits properties and functions from its <b>superclass</b>. If you want to change the behaviour of a <b>superclass</b> you can overwrite it's functions in your <b>subclass</b>. Your tree class should start out simply with something like:
+<p class="code">
+// Our new subclass TreeVariety, inherits functions and properties from its superclass Tree
+class TreeVariety extends Tree {
+  // This will overwrite Tree's leafColor(), omit if you want it the same
+  leafColor() {
+    // Add code here if you want colors to behave differently. perhaps an Evergreen?
+  }
+
+  // This will overwrite Tree's showTrunk(), omit if you want it the same
+  showTrunk() {
+    // Add code here to change the the Tree's trunk, perhaps a birch tree?
+  }
+
+  // This will overwrite Tree's showLeaves(), omit if you want it the same
+  showLeaves() {
+    // Add code here to change the the Tree's trunk, perhaps a maple tree?
+  }
+}
+</p>
+</li>
+<li>When we spawn a tree, randomly choose which type of tree you want to spawn and add to the <b>trees</b> array. Now our forest is colorful, vibrant, and full of different trees. Experiment, add trees or variations, or whatever you like until your forest is perfect!
+</li>
+</ol>
+<br>
+</td>
+<td></td>
+</tr></table>
+
+
+
+
+
+
+
+
+<center>
+
+
+
+
+
+<br><br>
+<b>
+<br><br>
+
+<br><br>
+(c) 2018 by Code Craft Academy
+</center>
+
+
+
+
+</font>
+
+</body>
+</html>
