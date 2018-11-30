@@ -1,0 +1,79 @@
+<html>
+<head>
+	<!-- Import P5 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+</head>
+<body>
+	<script type='text/javascript'>
+		// Set Canvas size constraints
+		var CANVAS_HEIGHT = 800;
+		var CANVAS_WIDTH = 800;
+
+		// Tree count
+		const TREE_COUNT = 50;
+
+		// start Tree
+		class Tree {
+			// constructor to create a new tree
+			constructor(x, y) {
+				// x position of the tree's base
+				this.x = x;
+				// y position of the tree's base
+				this.y = y;
+				// The tree's leaf color
+				this.leafColor = color(random(255), random(255), random(255));
+				// Size for this tree
+				this.treeSize = 75;
+			} // end constructor
+
+			// show - draw the tree on the canvas
+			show() {
+				// don't draw trees with a stroke
+				noStroke();
+				// draw the tree's trunk
+				this.drawTrunk();
+				// set the fill to the current leafColor
+				fill(this.leafColor);
+				// draw leaves, starting them at top of the trunk
+				this.drawLeaves(this.x, this.y - this.treeSize);
+			} // end show
+
+			// drawTrunk - draws the tree's trunk on the canvas
+			drawTrunk() {
+				// set the trunk to be brown, and fade as it decays
+				fill(135,54,0,this.opacity);
+				// calculate the top left X position of the trunk
+				var topLeftXPos = this.x - this.treeSize / 10 / 2; 
+				// calculate the top left Y position of the trunk
+				var topLeftYPos = this.y - this.treeSize;
+				// calculate the width of the trunk
+				var trunkWidth = this.treeSize / 10;
+				// calculate the trunk height
+				var trunkHeight = this.treeSize;
+				// draw the trunk
+				rect(topLeftXPos, topLeftYPos, trunkWidth, trunkHeight)
+			} // end - drawTrunk
+
+			// drawLeaves - draw the tree's leaves on the canvas, default is one circle
+			drawLeaves(leavesStartX, leavesStartY) {
+				// Draw one circular leaf
+				ellipse(leavesStartX, leavesStartY, this.treeSize);
+			} // end drawLeaves
+		} // end Tree
+
+		// setup - initial setup function for the project
+		function setup() {
+			// Create the canvas
+			createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+			// reset the canvas each frame
+			background('lightyellow');
+
+			// create TREE_COUNT trees
+			for (var i = 0; i < TREE_COUNT; i++) {
+				var tree = new Tree(random(width), random(height));
+				tree.show();
+			}
+		} // end setup
+	</script>
+</body>
+</html>

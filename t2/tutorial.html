@@ -109,6 +109,44 @@ class Tree {
 </li>
 <li>In your <b>setup()</b> function, create 50 trees at random positions to generate your forest!</li>
 <br>
+<li>Let's begin growing our trees. Give the <b>Tree</b> class a <b>size</b> <b>property</b> and use it to control the size of its trunk and leaves when you draw it.
+</li>
+<br>
+<li>Create an <b>age()</b> function that is called in your <b>draw()</b> function. This function should increase your tree's size, causing your tree to grow overtime</li>
+<br>
+<li>At this point, you'll have created a forest of immortal trees that grow indefinitely. To prevent that, let's stop our trees from living forever. Create a <b>currentAge</b> <b>property</b> for our <b>Tree</b> class. In our <b>age()</b> function increment the <b>currentAge</b> property. Finally, set a <b>maxAge</b> for trees. Trees with a <b>currentAge</b> beyond their <b>maxAge</b> should no longer call <b>show()</b>. BONUS: How can we fade our trees gently away, rather than having them suddenly disappear?
+</li>
+<br>
+<li>Let's add some more colors to our forest. Change a <b>Tree</b>'s leaf color based on its <b>currentAge</b> to show time is passing. BONUS: How can we make the color changes smooth?</li>
+<br>
+<li>We should now have a vibrant forest full of colors and activity. However, a forest is not full of identical trees. Add some randomization to your trees so that each one is different. For example, you could vary the number of leaves, their positions, or anything you can think of!</li>
+<br>
+<li> Now our forest is looking beautiful and varied, but a forest is full of multiple varieties of trees such as pines, oaks, birch, maple and more! We can use classes to help us create whole new varieties of trees. To begin let's clean up our <b>Tree</b> class by moving some code around. Create three new functions: <b>showTrunk()</b> (which shows the tree's trunk), <b>showLeaves()</b> (which shows the tree's leaves), and <b>leafColor()</b> (which pick's the tree's leaf color based on its age). Call these new functions appropiately in your <b>show()</b> function and ensure your forest functions the same way.
+</li>
+<br>
+<li>Create a new <b>subclass</b> of our tree function. A <b>subclass</b> is a new <b>class</b> that inherits properties and functions from its <b>superclass</b>. If you want to change the behaviour of a <b>superclass</b> you can overwrite it's functions in your <b>subclass</b>. Your tree class should start out simply with something like:
+<p class="code">
+// Our new subclass TreeVariety, inherits functions and properties from its superclass Tree
+class TreeVariety extends Tree {
+  // This will overwrite Tree's leafColor(), omit if you want it the same
+  leafColor() {
+    // Add code here if you want colors to behave differently. perhaps an Evergreen?
+  }
+
+  // This will overwrite Tree's showTrunk(), omit if you want it the same
+  showTrunk() {
+    // Add code here to change the the Tree's trunk, perhaps a birch tree?
+  }
+
+  // This will overwrite Tree's showLeaves(), omit if you want it the same
+  showLeaves() {
+    // Add code here to change the the Tree's trunk, perhaps a maple tree?
+  }
+}
+</p>
+</li>
+<li>When we spawn a tree, randomly choose which type of tree you want to spawn and add to the <b>trees</b> array. Now our forest is colorful, vibrant, and full of different trees. Experiment, add trees or variations, or whatever you like until your forest is perfect!
+</li>
 </ol>
 <br>
 </td>
