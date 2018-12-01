@@ -68,11 +68,19 @@
 			// reset the canvas each frame
 			background('lightyellow');
 
+			// create trees array
+			var trees = [];
+
 			// create TREE_COUNT trees
 			for (var i = 0; i < TREE_COUNT; i++) {
 				var tree = new Tree(random(width), random(height));
-				tree.show();
+				trees.push(tree);
 			}
+
+			// sort the trees by their y position so trees appear in the background if they are high up to create depth
+			trees.sort((a, b) => a.y - b. y);
+			// draw each tree
+			trees.forEach(tree => tree.show());
 		} // end setup
 	</script>
 </body>
