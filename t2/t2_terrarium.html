@@ -1,0 +1,152 @@
+<html>
+<head>
+	<!-- Import P5 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+</head>
+<body>
+	<script type='text/javascript'>
+		// Set Canvas size constraints
+		var CANVAS_HEIGHT = 800;
+		var CANVAS_WIDTH = 800;
+
+		// Tree count
+		const TREE_COUNT = 50;
+
+		// start Tree
+		class Tree {
+			// constructor to create a new tree
+			constructor(x, y, leafCount) {
+				// x position of the tree's base
+				this.x = x;
+				// y position of the tree's base
+				this.y = y;
+				// The tree's leaf color
+				this.leafColor = color(random(255), random(255), random(255));
+				// Size for this tree
+				this.treeSize = 75;
+				// Number of leaves for the tree
+				this.leafCount = leafCount;
+			} // end constructor
+
+			// show - draw the tree on the canvas
+			show() {
+				// don't draw trees with a stroke
+				noStroke();
+				// draw the tree's trunk
+				this.drawTrunk();
+				// set the fill to the current leafColor
+				fill(this.leafColor);
+				// draw leaves, starting them at top of the trunk
+				this.drawLeaves(this.x, this.y - this.treeSize);
+			} // end show
+
+			// drawTrunk - draws the tree's trunk on the canvas
+			drawTrunk() {
+				// set the trunk to be brown, and fade as it decays
+				fill(135,54,0);
+				// calculate the top left X position of the trunk
+				var topLeftXPos = this.x - this.treeSize / 10 / 2; 
+				// calculate the top left Y position of the trunk
+				var topLeftYPos = this.y - this.treeSize;
+				// calculate the width of the trunk
+				var trunkWidth = this.treeSize / 10;
+				// calculate the trunk height
+				var trunkHeight = this.treeSize;
+				// draw the trunk
+				rect(topLeftXPos, topLeftYPos, trunkWidth, trunkHeight)
+			} // end - drawTrunk
+
+			// drawLeaves - draw the tree's leaves on the canvas, default is one circle
+			drawLeaves(leavesStartX, leavesStartY) {
+				// Draw one circular leaf
+				ellipse(leavesStartX, leavesStartY, this.treeSize);
+			} // end drawLeaves
+		} // end Tree
+
+    // BirchTree is a tree subclass that looks like a cloud
+		class MossyTree extends Tree {
+			// drawTrunk - draws the tree's trunk on the canvas
+			drawTrunk() {
+				// Set the tree's trunk to be green and mossy
+				fill(51,102,0);
+				// calculate the top left X position of the trunk
+				var topLeftXPos = this.x - this.treeSize / 7 / 2; 
+				// calculate the top left Y position of the trunk
+				var topLeftYPos = this.y - this.treeSize;
+				// calculate the width of the trunk
+				var trunkWidth = this.treeSize / 7;
+				// calculate the trunk height
+				var trunkHeight = this.treeSize;
+				// draw the trunk
+				rect(topLeftXPos, topLeftYPos, trunkWidth, trunkHeight)
+			} // end - drawTrunk
+		}
+
+		// BumpyTree is a tree subclass that looks like a cloud
+		class BumpyTree extends Tree {
+			// drawLeaves - overwrites the super class method
+			drawLeaves(leavesStartX, leavesStartY) {
+				// Draw one large circular leaf that trunk-top
+				ellipse(leavesStartX, leavesStartY, this.treeSize);
+
+				// for leafCount leaves around the initial leaf's edge
+				for (var i = 0; i < this.leafCount; i++) {
+					// calulate the leaf's angle along the central leaf
+					var angle =  i / this.leafCount * 2 * PI;
+					// calculate the new leaf's X position using its angle
+					var leafXPos = leavesStartX + cos(angle) * this.treeSize / 4;
+					// calculate the new leaf's Y position using its angle
+					var leafYPos = leavesStartY + sin(angle) * this.treeSize / 4;
+					// draw the new leaf at its calculated position
+					ellipse(leafXPos, leafYPos, this.treeSize);
+				} // end for
+			} // end drawLeaves
+		}
+
+		class EvergreenTree extends Tree {
+			// drawLeaves - Evergreen trees have triangular leaves
+			drawLeaves(leavesStartX, leavesStartY) {
+				// for leafCount leaves as stacking triangles
+				for (var i = 0; i < this.leafCount; i++) {
+					// calulate the bottom y position of the triangle
+					var yBottom = leavesStartY + this.treeSize / 2 - (i-0.5) * this.treeSize / this.leafCount;
+					// calculate the top y position as the triangle
+					var yTop = leavesStartY + this.treeSize / 2 - (i + 1) * this.treeSize / this.leafCount;
+					// calculate the triangles width, it gets smaller as it gets higher
+					var width = this.treeSize * (this.leafCount - i) / this.leafCount;
+					// draw the triangular leaf
+					triangle(leavesStartX - width / 2, yBottom, this.x, yTop, leavesStartX + width / 2, yBottom)
+				} // end for
+			} // end drawLeaves
+		}
+
+		// Tree types that can be selected for display
+		var TREE_TYPES = [Tree, MossyTree, EvergreenTree, BumpyTree];
+
+		// setup - initial setup function for the project
+		function setup() {
+			// Create the canvas
+			createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+			// reset the canvas each frame
+			background('lightyellow');
+
+			// create trees array
+			var trees = [];
+
+			// create TREE_COUNT trees
+			for (var i = 0; i < TREE_COUNT; i++) {
+				// Randomly select a TreeType from the TreeTypes list
+				var randomTreeTypeIndex = Math.floor(random(TREE_TYPES.length));
+				var TreeType = TREE_TYPES[randomTreeTypeIndex];
+				var tree = new TreeType(random(width), random(height), Math.floor(random(4, 10)));
+				trees.push(tree);
+			}
+
+			// sort the trees by their y position so trees appear in the background if they are high up to create depth
+			trees.sort((a, b) => a.y - b. y);
+			// draw each tree
+			trees.forEach(tree => tree.show());
+		} // end setup
+	</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Tutorial: Crab Hunt
+<title>Tutorial: Varieties and Subclasses
 </title>
 <style>
 
@@ -15,7 +15,7 @@
 <img width = 300 src = "http://www.learncodecraft.com/images/cc_logo_2.png"><br>
 <font face="avenir">
 <p>
-<h2>Terrarium</h2>
+<h2>Varieties and Subclasses</h2>
 <br>
 <table width = "100%">
 <colgroup>
@@ -26,15 +26,15 @@
 <tr>
 <td></td>
 <td align = justify>
-Here is a fun starter game to get familiar with P5 and Javascript classes. Create a random forest from simple shapes .
+This project is a continuation of our <a href="../t1/terrarium_tutorial.html">terrarium project</a>. If you haven't completed that project yet, please begin there
 <br><br>
-A class is a custom object that we will define and use, as opposed to classes that come built into JS like numbers or arrays. Check out the <a href="./Cat.js">Cat</a> and <a href="./Person.js">Person</a> classes for examples.
+A subclass is an extension of another class in JS. By default, they inherit all properties and functions from their superclass, but these can be overriden to produce new behaviour and other functionality can be added. Check out the <a href="./AlleyCat.js">AlleyCat</a> (subclass of <a href="../t1/Cat.js">Cat</a>) and <a href="./Farmer.js">Farmer</a> (subclass of <a href="../t1/Person.js">Person</a>) classes for examples.
 <br><br>
-Here is an <a href = "./t1_terrarium.html"> example of a completed terrarium</a>
+Here is an <a href = "./t2_terrarium.html"> example of a completed terrarium with different species</a>
 <br><br>
-See p5 documentation here: <a href = "https://p5js.org/reference/">https://p5js.org/reference/</a>
+See p5 documentation <a href = "https://p5js.org/reference/">here</a>.
 <br>
-See JS Class documentation <a href = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">here</a>
+See JS subclass documentation <a href = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends">here</a>.
 <br>
 <br>
 
@@ -59,94 +59,38 @@ See JS Class documentation <a href = "https://developer.mozilla.org/en-US/docs/W
 <td></td>
 <td align = left>
 <ol style="margin-left: 10px;">
-	<li>Set up your HTML page, insert the p5.js source tags into the &lt;head&gt; section of your project page:
-  <p class="tab"><font color="blue" face="courier"> 
- &lt;script src= "https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"&gt;&lt;/script&gt;<br>
-
- &lt;script src= "http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/addons/p5.dom.js"&gt;&lt;/script&gt;
-</font>	</p>
-Your code now speaks P5!
+<li>Let's first make some updates to our code to make subclassing easier. Create two new functions: <b>showTrunk()</b> (which shows the tree's trunk), and <b>showLeaves()</b> (which shows the tree's leaves). Call these new functions appropiately in your <b>show()</b> function ensure your forest functions the same way, and show your instructor.</li>
 <br>
-<br>
-<li>In the <b>setup()</b> function, create a canvas and set your background color to something light.</li>
-<br>
-<li>It's time to draw a tree! First draw a trunk using the <b>line()</b> or <b>rect()</b> functions. The base of your trunk should be at the screen's center. Make sure to color it nicely as well! Once you have your trunk, give it some leaves using the <b>ellipse()</b> function. Make sure to color your leaves as well.</li>
-<br>
-<li>Our terrarium should have many trees though. Much like a real forest we'll have trees of different sizes, ages, and shapes. To make this possible we will use a Javascript <b>class</b>. Your tree class should start out simply with something like:
+<li>Now we can create our first <b>subclass</b> of our <b>Tree</b>. Each tree subclass should represent a variety of tree. Let's begin by creating a new <b>EvergreenTree</b> subclass. We'll modify our <b>showLeaves()</b> function to use p5's <b>triangle()</b> to create their unique appearance. Your <b>EvergreenTree</b> class should look something like this:
 <p class="code">
-// This is the syntax to declare a new class
-class Tree {
-  // This function will draw our tree for us
-  show() {
-    // Your trunk and leaves code can go here
-  }
-}
-</p>
-</li>
-<br>
-<li>With our Tree class in hand, we can create a new tree easily using the <b>new</b> keyword. Try creating your tree and calling its <b>show()</b> function.</li>
-<br>
-<li>Now let's give each tree some additional <b>properties</b>. We can do that by using our class's <b>constructor()</b>. <b>Tree</b>'s <b>constructor</b> is called everytime we call <b>new</b> and can set initial <b>properties</b> for that new tree. Use it to assign input <b>x</b> and <b>y</b> positions, generate a random <b>leafColor</b>, and set a default initial <b>size</b>.
-<p class="code">
-// This is the syntax to declare a new class
-class Tree {
-  // constructor is called whenever new is used to create a tree
-  constructor(x, y) {
-    // Set the tree's x and y positions to properties here
-    // Generate a leafColor property
-    // Set a constant initial size
-  }
-
-  // This function will draw our tree for us
-  show() {
-    // Your trunk and leaves code can go here
-    // Use the tree's x and y position properties to place the tree
-    // Use the tree's leafColor to color the leaves
-    // Use the tree's size to scale the tree
-  }
-}
-</p>
-</li>
-<li>In your <b>setup()</b> function, create 50 trees at random positions to generate your forest!</li>
-<br>
-<li>Let's begin growing our trees. Give the <b>Tree</b> class a <b>size</b> <b>property</b> and use it to control the size of its trunk and leaves when you draw it.
-</li>
-<br>
-<li>Create an <b>age()</b> function that is called in your <b>draw()</b> function. This function should increase your tree's size, causing your tree to grow overtime</li>
-<br>
-<li>At this point, you'll have created a forest of immortal trees that grow indefinitely. To prevent that, let's stop our trees from living forever. Create a <b>currentAge</b> <b>property</b> for our <b>Tree</b> class. In our <b>age()</b> function increment the <b>currentAge</b> property. Finally, set a <b>maxAge</b> for trees. Trees with a <b>currentAge</b> beyond their <b>maxAge</b> should no longer call <b>show()</b>. BONUS: How can we fade our trees gently away, rather than having them suddenly disappear?
-</li>
-<br>
-<li>Let's add some more colors to our forest. Change a <b>Tree</b>'s leaf color based on its <b>currentAge</b> to show time is passing. BONUS: How can we make the color changes smooth?</li>
-<br>
-<li>We should now have a vibrant forest full of colors and activity. However, a forest is not full of identical trees. Add some randomization to your trees so that each one is different. For example, you could vary the number of leaves, their positions, or anything you can think of!</li>
-<br>
-<li> Now our forest is looking beautiful and varied, but a forest is full of multiple varieties of trees such as pines, oaks, birch, maple and more! We can use classes to help us create whole new varieties of trees. To begin let's clean up our <b>Tree</b> class by moving some code around. Create three new functions: <b>showTrunk()</b> (which shows the tree's trunk), <b>showLeaves()</b> (which shows the tree's leaves), and <b>leafColor()</b> (which pick's the tree's leaf color based on its age). Call these new functions appropiately in your <b>show()</b> function and ensure your forest functions the same way.
-</li>
-<br>
-<li>Create a new <b>subclass</b> of our tree function. A <b>subclass</b> is a new <b>class</b> that inherits properties and functions from its <b>superclass</b>. If you want to change the behaviour of a <b>superclass</b> you can overwrite it's functions in your <b>subclass</b>. Your tree class should start out simply with something like:
-<p class="code">
-// Our new subclass TreeVariety, inherits functions and properties from its superclass Tree
-class TreeVariety extends Tree {
-  // This will overwrite Tree's leafColor(), omit if you want it the same
-  leafColor() {
-    // Add code here if you want colors to behave differently. perhaps an Evergreen?
-  }
-
-  // This will overwrite Tree's showTrunk(), omit if you want it the same
-  showTrunk() {
-    // Add code here to change the the Tree's trunk, perhaps a birch tree?
-  }
-
-  // This will overwrite Tree's showLeaves(), omit if you want it the same
+// Our new subclass EvergreenTree, inherits functions and properties from its superclass Tree
+class EvergreenTree extends Tree {
+  // This will overwrite Tree's showLeaves()
   showLeaves() {
-    // Add code here to change the the Tree's trunk, perhaps a maple tree?
+    // Write new draw code to create an evergreen's unique appearance
   }
 }
 </p>
 </li>
-<li>When we spawn a tree, randomly choose which type of tree you want to spawn and add to the <b>trees</b> array. Now our forest is colorful, vibrant, and full of different trees. Experiment, add trees or variations, or whatever you like until your forest is perfect!
+<li>As you create trees in <b>setup()</b>, randomly select create either a <b>Tree</b> or an <b>EvergreenTree</b>. Confirm that your forest has a variety of both trees.
 </li>
+<br>
+<li>Now let's add another variety of tree, <b>MossyTree</b>. This time we will overwrite <b>Tree</b>'s' <b>showTrunk()</b> function to create a green trunk. Your <b>MossyTree</b> class should look something like this:
+<p class="code">
+// Our new subclass MossyTree, inherits functions and properties from its superclass Tree
+class MossyTree extends Tree {
+  // This will overwrite Tree's showTrunk()
+  showTrunk() {
+    // Write new draw code to create a green, mossy trunk
+  }
+}
+</li>
+<br>
+<li>In your <b>setup()</b> function, add <b>MossyTree</b> to the list of trees that can be randomly selected.</li>
+<br>
+<li>Come up with a new variety of tree and create a subclass. Be creative, but think of what properties you can change to generate a new tree. You could add color, leaves, change the the size, anything! Just be sure to allow that tree to be selected in your <b>setup()</b> functions.</li>
+<br>
+<li>Your forest should now be full of 4 different trees that each have a unique look! Next we'll observe the passage of time on your trees.</li>
 </ol>
 <br>
 </td>
