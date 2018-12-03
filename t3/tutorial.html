@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>Tutorial: Varieties and Subclasses
+</title>
+<style>
+
+</style>
+
+<link rel="stylesheet" type="text/css" href="http://www.learncodecraft.com/tutorials/tut-styles.css" />
+
+</head>
+
+<body>
+<center>
+<img width = 300 src = "http://www.learncodecraft.com/images/cc_logo_2.png"><br>
+<font face="avenir">
+<p>
+<h2>Varieties and Subclasses</h2>
+<br>
+<table width = "100%">
+<colgroup>
+<col width="100 px"/>
+<col width="400 px"/>
+<col width="100 px"/>
+</colgroup>
+<tr>
+<td></td>
+<td align = justify>
+This project is a continuation of our second <a href="../t2/tutorial.html">terrarium project</a>. If you haven't completed that project yet, please begin there
+<br><br>
+Our last tutorial focused on subclasses to create a variety of tree types. This tutorial will focus on adding the passage of time to learn about updating our tree instances. Check out the new <a href="./AlleyCat.js">AlleyCat</a> and <a href="./Farmer.js">Farmer</a> classes. <b>AlleyCat</b> gained a <b>wash()</b> function that removes the dirt from its <b>color</b> property. <b>Farmer</b> gained a <b>walk()</b> function that changes their <b>x</b> and <b>y</b> positions.
+<br><br>
+Here is an <a href = "./t3_terrarium.html"> example of a completed terrarium with the passage of time. Note the growth, and color changes for our trees.</a>
+<br><br>
+See p5 documentation <a href = "https://p5js.org/reference/">here</a>.
+<br>
+See JS property documentation <a href = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Instance_properties">here</a>.
+<br>
+<br>
+
+</td>
+<td></td>
+</tr></table>
+
+
+<table width = "100%">
+<colgroup>
+<col width="100 px"/>
+<col width="400 px"/>
+<col width="100 px"/>
+</colgroup>
+<tr>
+<td></td>
+<td align = "center"><br><br><b>Directions</b></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align = left>
+<ol style="margin-left: 10px;">
+<li>Since our project is going to become more dynamic, we will need to use p5's <b>draw()</b> function. If you haven't already, create a <b>trees</b> array outside of your <b>setup()</b> and <b>draw()</b> functions. As you create your trees, push them them to the <b>trees</b> array. In your <b>draw()</b> function, call each tree's <b>show()</b> function. Confirm your forest still appears and show an instructor.
+</li>
+<br>
+<li>Now let's make your tree's grow. Add an <b>age()</b> function to your <b>Tree</b> superclass. In your <b>age()</b> function, increase the tree's <b>size</b> property. Call each tree's <b>age()</b> function in <b>draw()</b>. Your trees should now get bigger and bigger as time passes.
+</li>
+<br>
+<li>At this point, you'll have created a forest of immortal trees that grow indefinitely. To prevent that, let's stop our trees from living forever. Create a <b>currentAge</b> <b>property</b> for our <b>Tree</b> class. In our <b>age()</b> function increment the <b>currentAge</b> property. Finally, set a <b>maxAge</b> for trees. Trees with a <b>currentAge</b> beyond their <b>maxAge</b> should no longer call <b>show()</b>. BONUS: How can we fade our trees gently away, rather than having them suddenly disappear?
+</li>
+<br>
+<li>Now after a period of time, all of your tree's die and you will be left with a blank canvas. Instead of creating 50 trees all at once, create a new tree every few seconds. Now your forest should be a mix of young and old trees that spawn, grow old, and die.
+</li>
+<br>
+<li>As tree's age in real life, more than their size changes. Instead of using a random <b>leafColor</b> for our trees, change a <b>Tree</b>'s leaf color based on its <b>currentAge</b> to show time is passing. BONUS: How can we make the color changes smooth?</li>
+<br>
+<li>Next let's add fruit to some of your trees. For some tree subclasses (for example <b>EvergreenTree</b>'s don't grow fruit), add a <b>showFruit()</b> function that is called from <b>Tree</b>'s <b>show()</b> function. Play around with where your tree spawn on the tree, and when they start, and end appearing until you are happy.</li>
+<br>
+<li>Continue to tweak the styling of your tree's changes until you are satisfied!</li>
+<br>
+</ol>
+<br>
+</td>
+<td></td>
+</tr></table>
+
+
+
+
+
+
+
+
+<center>
+
+
+
+
+
+<br><br>
+<b>
+<br><br>
+
+<br><br>
+(c) 2018 by Code Craft Academy
+</center>
+
+
+
+
+</font>
+
+</body>
+</html>
