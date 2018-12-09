@@ -73,12 +73,13 @@
 
 			// create TREE_COUNT trees
 			for (var i = 0; i < TREE_COUNT; i++) {
-				var tree = new Tree(random(width), random(height));
+				var tree = new Tree(random(100,width-100), random(200,height-200));
 				trees.push(tree);
 			}
 
 			// sort the trees by their y position so trees appear in the background if they are high up to create depth
-			trees.sort((a, b) => a.y - b. y);
+			//PK-> NICE TOUCH!
+			trees.sort((a, b) => a.y - b.y);
 			// draw each tree
 			trees.forEach(tree => tree.show());
 		} // end setup
