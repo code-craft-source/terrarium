@@ -16,13 +16,12 @@ class AlleyCat extends Cat {
 		super(name, dirtyColor)
 	}
 
-	meow() {
+	speak() {
 		return "HISS! I'm "+ this.name + " a " + this.color + " alley cat";
 	}
 	
-	speak() {
+	wash() {
 		this.color = this.color.replace('dirty ', '');
-		this.meow();
 	}
 
 }
