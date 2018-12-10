@@ -26,9 +26,17 @@
 <tr>
 <td></td>
 <td align = justify>
-This project is a continuation of our <a href="../t1/terrarium_tutorial.html">terrarium project</a>. If you haven't completed that project yet, please begin there
+This is the second project on the way to building your own virtual Terrarium, full of digital creatures and plants. The first project can be found <a href="../t1/t1_tree_tutorial_Paul_EDIT.html">here</a>. If you haven't completed that project yet, please begin there
 <br><br>
-A subclass is an extension of another class in JS. By default, they inherit all properties and functions from their superclass, but these can be overriden to produce new behaviour and other functionality can be added. Check out the <a href="./AlleyCat.js">AlleyCat</a> (subclass of <a href="../t1/Cat.js">Cat</a>) and <a href="./Farmer.js">Farmer</a> (subclass of <a href="../t1/Person.js">Person</a>) classes for examples.
+We will use this second stage to learn about <b>Subclasses</b>. A subclass is a extension of an already existing class, that can be used to modify behaviour of the original. Kia, Honda, Mercedes  may be subclasses of a Car class for example.
+<br><br>
+So whats so great about classes? 
+<li>First, they modify the <b>superclass's</b> <b>properties</b>, subclasses could have different rules for defining <font color="blue">color</font> or <font color="blue">width</font>.
+<li>Second, theu can overwrite the <b>superclasses ethods</b>. Like: <font color="blue">mySuperclassBall.move()</font> may behave differently than <font color="blue">mySubclassclassBall.move()</font>
+<br><br>
+Check out this example of a <a href="./AlleyCat.js">AlleyCat subclass</a>.
+<br><br>
+In this exercise you are going to create <b>subclasses</b> called <font color="blue">EvergreenTree</font>, <font color="blue">MossyTree</font>, and one your own design. Each will have unique traits and you'll use these subclasses to add variety and life to your forest, much like a real one!
 <br><br>
 Here is an <a href = "./t2_terrarium.html"> example of a completed terrarium with different species</a>
 <br><br>
@@ -59,11 +67,11 @@ See JS subclass documentation <a href = "https://developer.mozilla.org/en-US/doc
 <td></td>
 <td align = left>
 <ol style="margin-left: 10px;">
-<li>Let's first make some updates to our code to make subclassing easier. Create two new functions: <b>showTrunk()</b> (which shows the tree's trunk), and <b>showLeaves()</b> (which shows the tree's leaves). Call these new functions appropiately in your <b>show()</b> function ensure your forest functions the same way, and show your instructor.</li>
+<li>Let's first make some updates to our code to make subclassing easier. Create two new functions: <font color="blue">showTrunk()</font> (which shows the tree's trunk), and <font color="blue">showLeaves()</font> (which shows the tree's leaves). Call these new functions appropiately in your <font color="blue">show()</font> function ensure your forest functions the same way, and show your instructor.</li>
 <br>
-<li>Now we can create our first <b>subclass</b> of our <b>Tree</b>. Each tree subclass should represent a variety of tree. Let's begin by creating a new <b>EvergreenTree</b> subclass. We'll modify our <b>showLeaves()</b> function to use p5's <b>triangle()</b> to create their unique appearance. Your <b>EvergreenTree</b> class should look something like this:
+<li>Now we can create our first <b>subclass</b> of our <font color="blue">Tree</font>. Each tree subclass should represent a different type of tree. Let's begin by creating a new <font color="blue">EvergreenTree</font> subclass. We'll modify our <font color="blue">showLeaves()</font> function to use p5's <font color="blue">triangle()</font> to create their unique appearance. Your <font color="blue">EvergreenTree</font> class should look something like this:
 <p class="code">
-// Our new subclass EvergreenTree, inherits functions and properties from its superclass Tree
+// extends is a keyword that defines the superclass (which is Tree in this case)
 class EvergreenTree extends Tree {
   // This will overwrite Tree's showLeaves()
   showLeaves() {
@@ -72,12 +80,11 @@ class EvergreenTree extends Tree {
 }
 </p>
 </li>
-<li>As you create trees in <b>setup()</b>, randomly select create either a <b>Tree</b> or an <b>EvergreenTree</b>. Confirm that your forest has a variety of both trees.
+<li>As you create trees in <font color="blue">setup()</font>, randomly select create either a <font color="blue">Tree</font> or an <font color="blue">EvergreenTree</font>. Confirm that your forest has a variety of both trees.
 </li>
 <br>
-<li>Now let's add another variety of tree, <b>MossyTree</b>. This time we will overwrite <b>Tree</b>'s' <b>showTrunk()</b> function to create a green trunk. Your <b>MossyTree</b> class should look something like this:
+<li>Now let's add another <b>subclass</b> of <font color="blue">Tree</font>, <font color="blue">MossyTree</font>. This tree will have a moss covered trunk, giving it a green tint. This time we will overwrite <font color="blue">Tree</font>'s <font color="blue">showTrunk()</font> function to create a green trunk. Your <font color="blue">MossyTree</font> class should look something like this:
 <p class="code">
-// Our new subclass MossyTree, inherits functions and properties from its superclass Tree
 class MossyTree extends Tree {
   // This will overwrite Tree's showTrunk()
   showTrunk() {
@@ -86,9 +93,9 @@ class MossyTree extends Tree {
 }
 </li>
 <br>
-<li>In your <b>setup()</b> function, add <b>MossyTree</b> to the list of trees that can be randomly selected.</li>
+<li>In your <font color="blue">setup()</font> function, add <font color="blue">MossyTree</font> to the list of trees that can be randomly selected.</li>
 <br>
-<li>Come up with a new variety of tree and create a subclass. Be creative, but think of what properties you can change to generate a new tree. You could add color, leaves, change the the size, anything! Just be sure to allow that tree to be selected in your <b>setup()</b> functions.</li>
+<li>Come up with a new variety of tree and create your own <b>subclass</b>. Be creative, but think of what properties you can change to generate a new tree. You could add color, leaves, change the the size, anything! Just be sure to allow that tree to be selected in your <font color="blue">setup()</font> functions.</li>
 <br>
 <li>Your forest should now be full of 4 different trees that each have a unique look! Next we'll observe the passage of time on your trees.</li>
 </ol>

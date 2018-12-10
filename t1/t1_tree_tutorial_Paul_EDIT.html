@@ -80,13 +80,14 @@ And read about JavaScript classes <a href = "https://developer.mozilla.org/en-US
 Your code now speaks P5!
 <br>
 <br>
-<li>In the <b>setup()</b> function, create a canvas and set your background color to something light.</li>
+<li>In the <font color="blue">setup()</font> function, create a canvas and set your background color to something light.</li>
 <br>
-<li>Lets start by drawing a simple tree. First draw a trunk using the <b>line()</b> function. Place the tree in the screen's center.  Once you have your trunk, add leaves using the <b>ellipse()</b> function. Give your trunk and leaves appropriate colors. Does your tree look good?</li>
+<li>Lets start by drawing a simple tree. First draw a trunk using the <font color="blue">line()</font> function. Place the tree in the screen's center.  Once you have your trunk, add leaves using the <font color="blue">ellipse()</font> function. Give your trunk and leaves appropriate colors. Does your tree look good?</li>
 <br>
 <li>Now lets convert this simple tree into a Tree class. To start, your Tree will just have a method, called <font color="blue">show()</font> that will hold the code you just wrote to draw the tree. 
 <br>
 <p class="code">
+// class is the keyword to declare a class, the same way you use var to declare a variable!
 class Tree {
   show() {
     // Put your code for drawing the trunk and leaves here
@@ -97,7 +98,7 @@ class Tree {
 <br>
 <li>With our Tree class in hand, we can create a new tree easily using the <font color="blue">new</font> keyword. Try creating a tree (call it myFirstTree) in the setup() section. Then call its <font color="blue">show()</font> method to put it on the screen. (HINT: look at the Cat class for an example.)</li>
 <br>
-<li>Now let's give our tree some additional <b>properties</b>. We can do that by adding a <b>constructor()</b> to your Tree. A class's constructor is called everytime a new instance of the class, such as a new tree, is created. Lets start with <font color="blue">x</font> and <font color="blue">y</font> positions for the tree, a <font color="blue">leafColor</font>, and a <font color="blue">size</font>. 
+<li>Now let's give our tree some additional <b>properties</b>. We can do that by adding a <font color="blue">constructor()</font> method to your Tree. A class's constructor is called everytime a new instance of the class, such as a new tree, is created. Lets start with <font color="blue">x</font> and <font color="blue">y</font> positions for the tree, a <font color="blue">leafColor</font>, and a <font color="blue">size</font>. 
 <br><br>
 Note that the x and y values are <b>passed as arguments</b> to your Tree class when you call <font color="blue">new</font> to create it. They are then converted to properties in the constructor. 
 
@@ -119,13 +120,13 @@ class Tree {
   }
 }
 </p>
-Dont forget to update your <font color="blue">new Tree</font> call in the <b>setup()</b> section. 
+Dont forget to update your <font color="blue">new Tree</font> call in the <font color="blue">setup()</font> section. 
 </li>
 <br>
-<li>Now change this call to use random values for the <b>x</b> and <b>y</b>. Does your tree appear with a different color and in a different place every time you refresh the screen?
+<li>Now change this call to use random values for the <font color="blue">x</font> and <font color="blue">y</font>. Does your tree appear with a different color and in a different place every time you refresh the screen?
 </li>
 <br>
-<li>Now lets turn your Tree class into a forest! In the setup() section, create 50 trees at random positions to generate your forest!</li>
+<li>Now lets turn your Tree class into a forest! In the <font color="blue">setup()</font> section, create 50 trees at random positions to generate your forest!</li>
 <br>
 <li>Continue to edit your code until it is readable, tidy, and you are satisfied. Have fun!!
 </li>
