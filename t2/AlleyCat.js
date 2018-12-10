@@ -16,16 +16,16 @@ class AlleyCat extends Cat {
 		super(name, dirtyColor)
 	}
 
-	meow() {
+	speak() {
 		return "HISS! I'm "+ this.name + " a " + this.color + " alley cat";
 	}
 }
 
 
 var whiskers = new Cat("Whiskers","grey")
-var garfield = new Cat("Garfield","orage striped")
+var garfield = new Cat("Garfield","orange striped")
 
 
 whiskers.speak()  //"HISS! I'm Whiskers a dirty grey alley cat";
-garfield.speak()  //"HISS! I'm Garfield a dirty grey alley cat";
+garfield.speak()  //"HISS! I'm Garfield a dirty orange striped alley cat";
 

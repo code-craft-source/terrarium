@@ -10,7 +10,7 @@ class Cat {
 }
 
 var whiskers = new Cat("Whiskers","grey")
-var garfield = new Cat("Garfield","orage striped")
+var garfield = new Cat("Garfield","orange striped")
 
 
 whiskers.speak()  //"Meow! I'm Whiskers a grey cat";
