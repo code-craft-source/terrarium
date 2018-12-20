@@ -23,34 +23,41 @@ class Car {
 
 
 class ConvertibleCar extends Car {
-    constructor(name, color) {
-        this.isRoofOpen = false;
-        super(name, color)
-    }
+	constructor(name, color) {
+		this.isRoofOpen = false;
+    // super is a keyword to call the superclass's constructor
+    // Check out the Car constrcutor to see what it does!
+    super(name, color)
+  }
 
-    openRoof() {
-     	this.isRoofOpen = true;
-    }
+  openRoof() {
+  	this.isRoofOpen = true;
+  }
 
-    closeRoof() {
-     	this.isRoofOpen = false;
-    }
+  closeRoof() {
+  	this.isRoofOpen = false;
+  }
 
 }
 
 
 class FlyingCar extends Car {
-    constructor(name, color) {
-	    this.altitude = 0;
-	    super(name, color)
+	constructor(name, color) {
+		this.altitude = 0;
+	  // super is a keyword to call the superclass's constructor
+    // Check out the Car constrcutor to see what it does!
+    super(name, color)
+  }
+
+  drive(newAlt) {
+  	this.altitude = newAlt;
+  	return `The ${this.name} is flying at height of ${this.altitude} feet.`;
+  }
+
+  stop() {
+		this.altitude = 0
+		return `The ${this.name} has landed.`;
 	}
-
-    drive(newAlt) {
-     	this.altitude = newAlt;
-     	return `The ${this.name} is flying at height of ${this.altitude} feet.`;
-    }
-
-
 }
 
 var myHonda = new Car("Honda Civic","white")
@@ -65,8 +72,5 @@ myHonda.openRoof() //ERROR: no such method
 
 jetsonCar.blowHorn() //"The Jetson Flyer says BEEEEEP!";
 jetsonCar.drive(100) //"The Jetson Flyer is flying at heigth of 100 feet.";
-
-
-
-
+jetsonCar.stop() //"The Jetson Flyer has landed.";
 
