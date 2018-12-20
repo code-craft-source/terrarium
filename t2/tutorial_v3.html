@@ -40,7 +40,7 @@ Here is what these <a href="./Cars.js">Car classes</a> might look like.
 <br><br>
 So a subclass is a great way to <b>re-use</b> all the code in original class, while easily adding new capabilites.
 <br><br>
-In this exercise you are going to create <b>subclasses</b> called <font color="blue">EvergreenTree</font> and <font color="blue">MossyTree</font>, and one your own design. Each will have unique traits and you'll use these subclasses to add variety and life to your forest, much like a real one!
+In this exercise you are going to create <b>subclasses</b> called <font color="blue">EvergreenTree</font> and <font color="blue">RedwoodTree</font>, and one your own design. Each will have unique traits and you'll use these subclasses to add variety and life to your forest, much like a real one!
 <br><br>
 Here is an <a href = "./t2_terrarium.html"> example of a completed terrarium with different species of tree.</a>
 <br><br>
@@ -92,17 +92,21 @@ Change the <font color="blue">setup()</font> function to create EvergreenTrees s
 <li>Now modify the <font color="blue">setup()</font> function again to randomly create either a <font color="blue">Tree</font> or an <font color="blue">EvergreenTree</font>. Check that your forest now has both kinds of trees.
 </li>
 <br>
-<li>Now let's add another <b>subclass</b>: <font color="blue">MossyTree</font>. This tree will have a moss covered trunk, giving it a green tint. This time we will overwrite <font color="blue">Tree</font>'s <font color="blue">showTrunk()</font> function to create a green trunk. Your <font color="blue">MossyTree</font> class should look something like this:
+<li>Now let's add another <b>subclass</b>: <font color="blue">RedwoodTree</font>. This tree will have a very tall trunk, and leaves clustered in bundles at the top. This time we will overwrite <font color="blue">Tree</font>'s <font color="blue">showTrunk()</font> function to create a very tall trunk. Then we will overwrite <font color="blue">Tree</font>'s <font color="blue">showLeaves()</font> function to create a bundle of small leaves near the top. Your <font color="blue">RedwoodTree</font> class should look something like this:
 <p class="code">
-class MossyTree extends Tree {
+class RedwoodTree extends Tree {
 
   showTrunk() {
-    // Change the draw code to create a green, mossy trunk
+    // Change the draw code to create a very tall trunk
+  }
+
+  showLeaves() {
+    // Change the draw code to create bundles of small leaves
   }
 }
 </li>
 <br>
-<li>In your <font color="blue">setup()</font> function, add <font color="blue">MossyTree</font> to the list of trees that can be randomly selected.</li>
+<li>In your <font color="blue">setup()</font> function, add <font color="blue">RedwoodTree</font> to the list of trees that can be randomly selected.</li>
 <br>
 <li>Come up with a new variety of tree and create your own <b>subclass</b>. Be creative, but think of what properties you can change to generate a new tree. You could change the way the leaves look, change the the size or colors, anything you can imagine. Just be sure to allow that tree to be selected in your <font color="blue">setup()</font> function.</li>
 <br>

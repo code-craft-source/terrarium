@@ -28,6 +28,12 @@
 				this.leafCount = leafCount;
 			} // end constructor
 
+			// trunkSize - calculate the tree's trunk size
+			trunkSize() {
+				// default - use the treeSize as its trunk size
+				return this.treeSize;
+			} // end trunkSize
+
 			// show - draw the tree on the canvas
 			show() {
 				// don't draw trees with a stroke
@@ -37,21 +43,21 @@
 				// set the fill to the current leafColor
 				fill(this.leafColor);
 				// draw leaves, starting them at top of the trunk
-				this.drawLeaves(this.x, this.y - this.treeSize);
+				this.drawLeaves(this.x, this.y - this.trunkSize());
 			} // end show
 
 			// drawTrunk - draws the tree's trunk on the canvas
 			drawTrunk() {
-				// set the trunk to be brown, and fade as it decays
+				// set the trunk to be brown
 				fill(135,54,0);
 				// calculate the top left X position of the trunk
 				var topLeftXPos = this.x - this.treeSize / 10 / 2; 
 				// calculate the top left Y position of the trunk
-				var topLeftYPos = this.y - this.treeSize;
+				var topLeftYPos = this.y - this.trunkSize();
 				// calculate the width of the trunk
 				var trunkWidth = this.treeSize / 10;
 				// calculate the trunk height
-				var trunkHeight = this.treeSize;
+				var trunkHeight = this.trunkSize();
 				// draw the trunk
 				rect(topLeftXPos, topLeftYPos, trunkWidth, trunkHeight)
 			} // end - drawTrunk
@@ -63,23 +69,42 @@
 			} // end drawLeaves
 		} // end Tree
 
-    // MossyTree is a tree subclass that has a Mossy Green trunk
-		class MossyTree extends Tree {
+		// RedwoodTree is a tree subclass with a massive trunk
+		class RedwoodTree extends Tree {
+			// trunkSize - calculate the tree's trunk size
+			trunkSize() {
+				// Redwood's have trunks twice as high
+				return this.treeSize * 2;
+			} // end trunkSize
+
 			// drawTrunk - draws the tree's trunk on the canvas
 			drawTrunk() {
-				// Set the tree's trunk to be green and mossy
-				fill(51,102,0);
+				// set the trunk to be red-brown
+				fill(153,0,0);
 				// calculate the top left X position of the trunk
-				var topLeftXPos = this.x - this.treeSize / 7 / 2; 
+				var topLeftXPos = this.x - this.treeSize / 10 / 2; 
 				// calculate the top left Y position of the trunk
-				var topLeftYPos = this.y - this.treeSize;
+				var topLeftYPos = this.y - this.trunkSize();
 				// calculate the width of the trunk
-				var trunkWidth = this.treeSize / 7;
+				var trunkWidth = this.treeSize / 10;
 				// calculate the trunk height
-				var trunkHeight = this.treeSize;
+				var trunkHeight = this.trunkSize();
 				// draw the trunk
 				rect(topLeftXPos, topLeftYPos, trunkWidth, trunkHeight)
 			} // end - drawTrunk
+
+			// drawLeaves - overwrites the super class method
+			drawLeaves(leavesStartX, leavesStartY) {
+				// for leafCount leaves around the initial leaf's edge
+				for (var i = 0; i < this.leafCount; i++) {
+					// Set the x position of the leaf to alternate between each side of the trunk
+					var leafXPos = (i % 2 === 0) ? leavesStartX - this.treeSize / 10 / 2 : leavesStartX + this.treeSize / 10 / 2;
+					// Grow the leaves down the trunk
+					var leafYPos = leavesStartY + i * this.treeSize / 15;
+					// draw the new leaf at its calculated position
+					ellipse(leafXPos, leafYPos, this.treeSize / 3);
+				} // end for
+			} // end drawLeaves
 		}
 
 		// BumpyTree is a tree subclass that looks like a cloud
@@ -121,7 +146,7 @@
 		}
 
 		// Tree types that can be selected for display
-		var TREE_TYPES = [Tree, MossyTree, EvergreenTree, BumpyTree];
+		var TREE_TYPES = [Tree, RedwoodTree, EvergreenTree, BumpyTree];
 
 		// setup - initial setup function for the project
 		function setup() {
