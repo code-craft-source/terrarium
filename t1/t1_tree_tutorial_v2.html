@@ -1,0 +1,151 @@
+<html>
+<head>
+<title>Tutorial: First Class Tree
+</title>
+<style>
+
+</style>
+
+<link rel="stylesheet" type="text/css" href="http://www.learncodecraft.com/tutorials/tut-styles.css" />
+
+</head>
+
+<body>
+<center>
+<img width = 300 src = "http://www.learncodecraft.com/images/cc_logo_2.png"><br>
+<font face="avenir">
+<p>
+<h2>Terrarium: First Class Tree</h2>
+<table width = "100%">
+<colgroup>
+<col width="75 px"/>
+<col width="500 px"/>
+<col width="75 px"/>
+</colgroup>
+<tr>
+<td></td>
+<td align = justify>
+This is the first project on the way to building your own virtual Terrarium, full of digital creatures and plants. 
+<br><br>
+We will use the Terrarium to learn about <b>Classes</b>. A class is a custom object that, in your code, can represent anything you want, like a game character, a creature or a bank account. The sprites in your games are built using classes like Rectangle, Text or Image. Arrays and Strings are classes too.
+<br><br>
+
+So whats so great about classes? 
+<li>First, they have <b>properties</b> you can define, like <font color="blue">color</font> or <font color="blue">width</font> in your game sprites.
+<li>Second, the have <b>methods</b> you can call to change them or get information about them. Like: <font color="blue">myBall.move()</font>
+<li>Third, you can create many of them easily by calling <b>new</b>. Like: <font color="blue">myBall = new Circle() </font>.
+The instructions for what should happen when you create this new <b>instance</b> of a class are stored in the class's 
+<b>constructor.</b>
+<br><br>
+Check out this example of a <a href="./Cat.js">Cat class</a>.
+<br><br>
+In this exercise you are going to create a class called Tree, and then use that class to build a whole forest.
+For now, our trees are going to be simple, just a trunk and a circle for leaves. In the following exercises, we are going to create more variety and have the forest come alive. 
+<br><br>
+Here is an <a href = "./t1_terrarium.html"> example of a completed class forest</a>
+<br><br>
+To learn more about p5, see here: <a href = "https://p5js.org/reference/">https://p5js.org/reference/</a>
+<br>
+And read about JavaScript classes <a href = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/classes">here</a>
+<br>
+<br>
+
+</td>
+<td></td>
+</tr></table>
+
+
+<table width = "100%">
+<colgroup>
+<col width="50 px"/>
+<col width="500 px"/>
+<col width="50 px"/>
+</colgroup>
+<tr>
+<td></td>
+<td align = "center"><br><br><b>Directions</b></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align = left>
+<ol style="margin-left: 10px;">
+	<li>Set up your HTML page, insert the p5.js source tags into the &lt;head&gt; section of your project page:
+  <p class="tab"><font color="blue" face="courier"> 
+ &lt;script src= "https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"&gt;&lt;/script&gt;<br>
+
+ &lt;script src= "http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/addons/p5.dom.js"&gt;&lt;/script&gt;
+</font>	</p>
+Your code now speaks P5!
+<br>
+<br>
+<li>In the <font color="blue">setup()</font> function, create a canvas and set your background color to something light.</li>
+<br>
+<li>Lets start by drawing a simple tree. First draw a trunk using the <font color="blue">line()</font> function. Place the tree in the screen's center.  Once you have your trunk, add leaves using the <font color="blue">ellipse()</font> function. Give your trunk and leaves appropriate colors. Does your tree look good?</li>
+<br>
+<li>Now lets convert this simple tree into a Tree class. To start, your Tree will just have a method, called <font color="blue">show()</font> that will hold the code you just wrote to draw the tree.  <font color="blue">class</font> is the keyword to declare a Class, the same way you use <font color="blue">var</font>  to declare a variable!
+<br>
+<p class="code"> 
+class Tree {
+  show() {
+    // Put your code for drawing the trunk and leaves here
+  }
+}
+</p>
+</li>
+<br>
+<li>With our Tree class in hand, we can create a new tree easily using the <font color="blue">new</font> keyword. Try creating a tree (call it myFirstTree) in the setup() section. Then call its <font color="blue">show()</font> method to put it on the screen. (HINT: look at the Cat class for an example.)</li>
+<br>
+<li>Now let's give our tree some additional <b>properties</b>. We can do that by adding a <font color="blue">constructor()</font> method to your Tree. A class's constructor is called everytime a new instance of the class, such as a new tree, is created. Lets start with <font color="blue">x</font> and <font color="blue">y</font> positions for the tree, a <font color="blue">leafColor</font>, and a <font color="blue">size</font>. 
+<br><br>
+Note that the x and y values are <b>passed as arguments</b> to your Tree class when you call <font color="blue">new</font> to create it. They are then converted to properties in the constructor. 
+
+<p class="code">
+class Tree {
+  
+  constructor(x, y) {
+    // Use the syntax: this.property = YOUR CODE 
+    // Look at the Cat example for help.
+    // Convert the x and y arguments into properties here
+    // Generate a leafColor property
+    // Set the size property (this.size =)
+
+  }
+
+
+  show() {
+    // Change your trunk and leaf code to use the new Tree properties
+  }
+}
+</p>
+Dont forget to update your <font color="blue">new Tree</font> call in the <font color="blue">setup()</font> section. 
+</li>
+<br>
+<li>Now change this call to use random values for the <font color="blue">x</font> and <font color="blue">y</font>. Does your tree appear with a different color and in a different place every time you refresh the screen?
+</li>
+<br>
+<li>Now lets turn your Tree class into a forest! In the <font color="blue">setup()</font> section, create 50 trees at random positions to generate your forest!</li>
+<br>
+<li>Continue to edit your code until it is readable, tidy, and you are satisfied. Have fun!!
+</li>
+</ol>
+</td>
+<td></td>
+</tr></table>
+
+
+<center>
+
+
+<br><br>
+(c) 2018 by Code Craft Academy
+</center>
+
+
+
+
+</font>
+
+</body>
+</html>
