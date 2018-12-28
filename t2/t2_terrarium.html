@@ -21,7 +21,11 @@
 				// y position of the tree's base
 				this.y = y;
 				// The tree's leaf color
-				this.leafColor = color(random(255), random(255), random(255));
+				// The tree's leaf color
+				this.rColor = random(255);
+				this.gColor = random(255);
+				this.bColor = random(255);
+				this.leafColor = color(this.rColor, this.gColor, this.bColor);
 				// Size for this tree
 				this.treeSize = 75;
 				// Number of leaves for the tree
@@ -96,9 +100,14 @@
 			// drawLeaves - overwrites the super class method
 			drawLeaves(leavesStartX, leavesStartY) {
 				// for leafCount leaves around the initial leaf's edge
-				for (var i = 0; i < this.leafCount; i++) {
+				for (var i = 0; i < this.leafCount * 1.5; i++) {
+					// offset each leaf colors a bit off the base
+					var colorOffSet = random(-25, 25)
+          var offsetLeafColor = color(this.rColor + colorOffSet, this.gColor + colorOffSet,this.bColor + colorOffSet)
+					fill(offsetLeafColor)
+
 					// Set the x position of the leaf to alternate between each side of the trunk
-					var leafXPos = (i % 2 === 0) ? leavesStartX - this.treeSize / 10 / 2 : leavesStartX + this.treeSize / 10 / 2;
+					var leafXPos = (i % 2 === 0) ? leavesStartX - this.treeSize / 10 / 2 - i / 2 : leavesStartX + this.treeSize / 10 / 2 + i / 2;
 					// Grow the leaves down the trunk
 					var leafYPos = leavesStartY + i * this.treeSize / 15;
 					// draw the new leaf at its calculated position
