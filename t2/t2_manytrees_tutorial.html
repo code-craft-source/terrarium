@@ -84,12 +84,14 @@ class EvergreenTree extends Tree {
 </p>
 
 </li>
-<li> Modify your <font color="blue">showLeaves()</font> function to give the EvergreenTree its Christmas-tree-like appearance. HINT:  p5's has a <font color="blue">triangle()</font> function that can help.
-<br><br>
-Change the <font color="blue">setup()</font> function to create EvergreenTrees so you can see how they look on the screen.
+<li>Now let's modify your <font color="blue">showLeaves()</font> function to  give the <font color="blue">EvergreenTree</font> its Christmas-tree-like appearance. Start by using p5's <a href="https://p5js.org/reference/#/p5/triangle">triangle()</a> function to create a triangular leaf instead of a circular one.</li>
+<br>
+<li>That's a good start, but real evergreens have many "leaves". In your <font color="blue">showLeaves()</font> use multiple calls to the <a href="https://p5js.org/reference/#/p5/triangle">triangle()</a> function to create a few stacked triangles instead of one.</li>
+<br>
+<li>Change your <font color="blue">setup()</font> function to create <font color="blue">EvergreenTree</font>s so you can see how they look on the screen. Make any changes you'd like until you are happy with them.
 </li>
 <br>
-<li>Now modify the <font color="blue">setup()</font> function again to randomly create either a <font color="blue">Tree</font> or an <font color="blue">EvergreenTree</font>. Check that your forest now has both kinds of trees.
+<li>Now modify the <font color="blue">setup()</font> function again to randomly create either a <font color="blue">Tree</font> or an <font color="blue">EvergreenTree</font> using p5's <a href="https://p5js.org/reference/#/p5/random">random()</a> function (read the documentation carefully!). Check that your forest now has both kinds of trees.
 </li>
 <br>
 <li>Now let's add another <b>subclass</b>: <font color="blue">RedwoodTree</font>. This tree will have a very tall trunk, and leaves clustered in bundles at the top. This time we will overwrite <font color="blue">Tree</font>'s <font color="blue">showTrunk()</font> function to create a very tall trunk. Then we will overwrite <font color="blue">Tree</font>'s <font color="blue">showLeaves()</font> function to create a bundle of small leaves near the top. Your <font color="blue">RedwoodTree</font> class should look something like this:
