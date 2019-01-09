@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Tutorial: Dynamic Forest
+<title>Tutorial: The Living Forest
 </title>
 <style>
 
@@ -15,7 +15,7 @@
 <img width = 300 src = "http://www.learncodecraft.com/images/cc_logo_2.png"><br>
 <font face="avenir">
 <p>
-<h2>Tutorial: Dynamic Forest</h2>
+<h2>Tutorial: The Living Forest</h2>
 <br>
 <table width = "100%">
 <colgroup>
@@ -26,17 +26,13 @@
 <tr>
 <td></td>
 <td align = justify>
-This is the third project on the way to building your own virtual Terrarium, full of digital creatures and plants. The second project can be found <a href="../t2/tutorial.html">here</a>. If you haven't completed that project yet, please begin there
+This is the third project on the way to building your own virtual Terrarium. The second project can be found <a href="../t2/tutorial.html">here</a>. If you haven't completed that project yet, please begin there.
 <br><br>
-We will use this second stage to learn about updating <b>properties</b>. A class's <b>properties</b> can be manipulated to create a more dynamic system. You could manipulate a <font color="blue">width</font> <b>property</b> to make an object shrink or grow. 
+In this project, we are going to be using our class's <b>methods</b> to update its <b>properties</b> to create a more dynamic system. For example, you can call a <font color="blue">grow()</font> method to modify a <font color="blue">width</font> property to make a tree grow. 
 <br><br>
-By changing our <font color="blue">Tree</font>'s properties we can make our forest dynamic. This is the stage were we can make our forest truly come alive!
+To start, you are going to add an <font color="blue">age()</font> method that will change our trees as time passes. We're going to use this passage of time to allow trees to spawn, grow, change colors, and eventually die, representing a full life cycle in our terrarium.
 <br><br>
-Check out this example of a <a href="./AlleyCat.js">AlleyCat subclass</a>. The <font color="blue">wash()</font> function will clean up our AlleyCat's color! Unfortunately, it won't make them any nicer...
-<br><br>
-In this exercise you are going to create <font color="blue">age()</font> function that will change our trees as time passes. We're going to use this passage of time to allow trees to spawn, grow, change colors, and eventually die, representing a full life cycle in our terrarium.
-<br><br>
-Here is an <a href = "./t3_terrarium.html"> example of a completed terrarium with the passage of time. Note the growth, and color changes for our trees.</a>
+Here is an <a href = "./t3_terrarium.html"> example of a completed terrarium,</a> changing with the passage of time. Note the growth, and color changes for our trees.
 <br><br>
 See p5 documentation <a href = "https://p5js.org/reference/">here</a>.
 <br>
@@ -64,13 +60,22 @@ See JS property documentation <a href = "https://developer.mozilla.org/en-US/doc
 <td></td>
 <td align = left>
 <ol style="margin-left: 10px;">
-<li>Since our project is going to become more dynamic, we will need to use p5's <font color="blue">draw()</font> function. If you haven't already, create a <font color="blue">trees</font> array outside of your <font color="blue">setup()</font> and <font color="blue">draw()</font> functions. As you create your trees, push them them to the <font color="blue">trees</font> array. In your <font color="blue">draw()</font> function, call each tree's <font color="blue">show()</font> function. Confirm your forest still appears and show an instructor.
+<li>Lets make your forest dynamic!  Now your forest does not change after you create it. In this tutorial, we are going to make the forest change before your eyes, that is, in real time. p5 does this in the <font color="blue">draw()</font> function. 
+</li>
+<br>
+<li>So first, declare (create) your <font color="blue">trees</font> array outside of your <font color="blue">setup()</font> function. As you create your trees, push them them to the <font color="blue">trees</font> array as before. 
+</li>
+<br>
+<li>Next, change your code to call each tree's <font color="blue">show()</font> method from your <font color="blue">draw()</font> function instead of your <font color="blue">setup()</font> function. This will make the trees update in real time instead of only once. Does your forest still look good?
 </li>
 <br>
 <li>Now let's make your tree's grow. Add an <font color="blue">age()</font> function to your <font color="blue">Tree</font> superclass. In your <font color="blue">age()</font> function, increase the tree's <font color="blue">size</font> <b>property</b>. Call each tree's <font color="blue">age()</font> function in <font color="blue">draw()</font>. Your trees should now get bigger and bigger as time passes.
 </li>
 <br>
-<li>At this point, you'll have created a forest of immortal trees that grow indefinitely. To prevent that, let's stop our trees from living forever. Create a <font color="blue">currentAge</font> <b>property</b> for our <font color="blue">Tree</font> class. In our <font color="blue">age()</font> function increment the <font color="blue">currentAge</font> <b>property</b>. Finally, set a <font color="blue">maxAge</font> for trees. Trees with a <font color="blue">currentAge</font> beyond their <font color="blue">maxAge</font> should no longer call <font color="blue">show()</font>. BONUS: How can we fade our trees gently away, rather than having them suddenly disappear?
+<li>At this point, you'll have created a forest of immortal trees that grow indefinitely. To prevent that, let's stop our trees from living forever. Create a <font color="blue">currentAge</font> <b>property</b> for our <font color="blue">Tree</font> class. In our <font color="blue">age()</font> function increment the <font color="blue">currentAge</font> property. Finally, set a <font color="blue">maxAge</font> for trees. Trees with a <font color="blue">currentAge</font> beyond their <font color="blue">maxAge</font> should no longer call <font color="blue">show()</font>. 
+
+<br><br>
+BONUS: How can we fade our trees gently away, rather than having them suddenly disappear?
 </li>
 <br>
 <li>Now after a period of time, all of your tree's die and you will be left with a blank canvas. Instead of creating 50 trees all at once, create a new tree every few seconds. Now your forest should be a mix of young and old trees that spawn, grow old, and die!
@@ -106,7 +111,7 @@ See JS property documentation <a href = "https://developer.mozilla.org/en-US/doc
 <br><br>
 
 <br><br>
-(c) 2018 by Code Craft Academy
+(c) 2019 by Code Craft Academy
 </center>
 
 
