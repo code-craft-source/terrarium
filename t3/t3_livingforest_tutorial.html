@@ -28,7 +28,7 @@
 <td align = justify>
 This is the third project on the way to building your own virtual Terrarium. The second project can be found <a href="../t2/tutorial.html">here</a>. If you haven't completed that project yet, please begin there.
 <br><br>
-In this project, we are going to be using our class's <b>methods</b> to update its <b>properties</b> to create a more dynamic system. For example, you can call a <font color="blue">grow()</font> method to modify a <font color="blue">width</font> property to make a tree grow. 
+In this project, we are going to be using our class's <b>methods</b> to update its <b>properties</b> to create a more dynamic system. For example, you can call a <font color="blue">grow()</font> method to modify a <font color="blue">size</font> property to make a tree grow. 
 <br><br>
 To start, you are going to add an <font color="blue">age()</font> method that will change our trees as time passes. We're going to use this passage of time to allow trees to spawn, grow, change colors, and eventually die, representing a full life cycle in our terrarium.
 <br><br>
@@ -60,20 +60,19 @@ See JS property documentation <a href = "https://developer.mozilla.org/en-US/doc
 <td></td>
 <td align = left>
 <ol style="margin-left: 10px;">
-<li>Lets make your forest dynamic!  Now your forest does not change after you create it. In this tutorial, we are going to make the forest change before your eyes, that is, in real time. p5 does this in the <font color="blue">draw()</font> function. 
+<li>Lets make your forest dynamic!  Now your forest does not change after you create it. In this tutorial, we are going to make the forest change before your eyes, that is, in real time. p5 does this in the <a href="https://p5js.org/examples/structure-setup-and-draw.html">draw()</a> function. 
 </li>
 <br>
 <li>So first, declare (create) your <font color="blue">trees</font> array outside of your <font color="blue">setup()</font> function. As you create your trees, push them them to the <font color="blue">trees</font> array as before. 
 </li>
 <br>
-<li>Next, change your code to call each tree's <font color="blue">show()</font> method from your <font color="blue">draw()</font> function instead of your <font color="blue">setup()</font> function. This will make the trees update in real time instead of only once. Does your forest still look good?
+<li>Next, change your code to call each tree's <font color="blue">show()</font> method from your <a href="https://p5js.org/examples/structure-setup-and-draw.html">draw()</a> function instead of your <a href="https://p5js.org/examples/structure-setup-and-draw.html">setup()</a> function. This will make the trees update in real time instead of only once. Does your forest look the same?
 </li>
 <br>
-<li>Now let's make your tree's grow. Add an <font color="blue">age()</font> function to your <font color="blue">Tree</font> superclass. In your <font color="blue">age()</font> function, increase the tree's <font color="blue">size</font> <b>property</b>. Call each tree's <font color="blue">age()</font> function in <font color="blue">draw()</font>. Your trees should now get bigger and bigger as time passes.
+<li>Now, let's make your tree's grow. Add an <font color="blue">age()</font> function to your <font color="blue">Tree</font> <b>superclass</b>. In your <font color="blue">age()</font> function, increase the tree's <font color="blue">size</font> <b>property</b>. Call each tree's <font color="blue">age()</font> function in your <a href="https://p5js.org/examples/structure-setup-and-draw.html">draw()</a>. Your trees should now get bigger and bigger as time passes.
 </li>
 <br>
-<li>At this point, you'll have created a forest of immortal trees that grow indefinitely. To prevent that, let's stop our trees from living forever. Create a <font color="blue">currentAge</font> <b>property</b> for our <font color="blue">Tree</font> class. In our <font color="blue">age()</font> function increment the <font color="blue">currentAge</font> property. Finally, set a <font color="blue">maxAge</font> for trees. Trees with a <font color="blue">currentAge</font> beyond their <font color="blue">maxAge</font> should no longer call <font color="blue">show()</font>. 
-
+<li>At this point, you'll have created a forest of immortal trees that grow indefinitely. To prevent that, let's stop our trees from living forever. Create a <font color="blue">currentAge</font> <b>property</b> for our <font color="blue">Tree</font> class. In our <font color="blue">age()</font> function, increment the <font color="blue">currentAge</font> property. Finally, set a <font color="blue">maxAge</font> for trees. Trees with a <font color="blue">currentAge</font> beyond their <font color="blue">maxAge</font> should no longer call <font color="blue">show()</font>.
 <br><br>
 BONUS: How can we fade our trees gently away, rather than having them suddenly disappear?
 </li>
@@ -81,9 +80,11 @@ BONUS: How can we fade our trees gently away, rather than having them suddenly d
 <li>Now after a period of time, all of your tree's die and you will be left with a blank canvas. Instead of creating 50 trees all at once, create a new tree every few seconds. Now your forest should be a mix of young and old trees that spawn, grow old, and die!
 </li>
 <br>
-<li>As tree's age in real life, more than their size changes. Instead of using a random <font color="blue">leafColor</font> for our trees, change a <font color="blue">Tree</font>'s leaf color based on its <font color="blue">currentAge</font> to show time is passing. BONUS: How can we make the color changes smooth?</li>
+<li>As tree's age in real life, more than their size changes. Instead of using a random <font color="blue">leafColor</font> for our trees, change a <font color="blue">Tree</font>'s leaf color based on its <font color="blue">currentAge</font> to show time is passing. 
+<br><br>
+BONUS: How can we make the color change smoothly?</li>
 <br>
-<li>Next let's add fruit to some of your trees. For some tree subclasses (for example <font color="blue">EvergreenTree</font>'s don't grow fruit), add a <font color="blue">showFruit()</font> function that is called from <font color="blue">Tree</font>'s <font color="blue">show()</font> function. Play around with where your tree spawn on the tree, and when they start, and end appearing until you are happy.</li>
+<li>Next let's add fruit to some of your trees. For some tree subclasses (for example <font color="blue">EvergreenTree</font>'s don't grow fruit), add a <font color="blue">showFruit()</font> function that is called from <font color="blue">Tree</font>'s <font color="blue">show()</font> function. Play around with where your tree spawn on the tree, and at what <font color="blue">currentAge</font> they appear, and disappear.</li>
 <br>
 <li>Continue to tweak the styling of your tree's changes until you are satisfied!</li>
 <br>
