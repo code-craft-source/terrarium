@@ -39,7 +39,7 @@
 		// Scale of fruit relative to size of the tree
 		var FRUIT_SIZE_SCALE = 0.1;
 
-		// start Tree
+		// start Tree ======================================
 		class Tree {
 			// colorLifeCycle - Color stages for a trees lifecycle
 			static get colorLifeCycle() {
@@ -166,7 +166,7 @@
 				// set the trunk to be brown, and fade as it decays
 				fill(135,54,0, this.opacity);
 				// calculate the top left X position of the trunk
-				var topLeftXPos = this.x - this.treeSize / 10 / 2; 
+				var topLeftXPos = this.x - this.treeSize / 10 / 2;
 				// calculate the top left Y position of the trunk
 				var topLeftYPos = this.y - this.trunkSize();
 				// calculate the width of the trunk
@@ -233,7 +233,9 @@
 				// Calculate the transitionary color
 				return lerpColor(fromColor, toColor, colorChangePercentage);
 			} // end fruit Color
-		} // end Tree
+		} // end Tree ==================================================
+
+
 
 		// RedwoodTree is a tree subclass with a massive trunk
   	class RedwoodTree extends Tree {
@@ -252,7 +254,7 @@
 				// set the trunk to be red-brown - and fade as it decays
 				fill(153,0,0,this.opacity);
 				// calculate the top left X position of the trunk
-				var topLeftXPos = this.x - this.treeSize / 10 / 2; 
+				var topLeftXPos = this.x - this.treeSize / 10 / 2;
 				// calculate the top left Y position of the trunk
 				var topLeftYPos = this.y - this.trunkSize();
 				// calculate the width of the trunk
@@ -331,7 +333,7 @@
 			} // end drawLeaves
 		}
 
-		// Create the lsit of current trees
+		// Create the list of current trees
 		var trees = [];
 		// Tree types that can be selected for display
 		var TREE_TYPES = [Tree, RedwoodTree, EvergreenTree, BumpyTree];
@@ -351,6 +353,7 @@
 
 			// randomly spawn a tree with SPAWN_CHANCE probability
 			var shouldSpawn = random() < SPAWN_CHANCE;
+			
 			// if no trees exist, or we should spawn one randomly, generate a tree
 			if (trees.length === 0 || shouldSpawn) {
 				// generate a new tree
@@ -359,7 +362,7 @@
 
 			// Create a new list of trees that are still visible
 			var visibleTrees = [];
-			// forEach - age each tree, and if its still visible add it to the visible trees list 
+			// forEach - age each tree, and if its still visible add it to the visible trees list
 			trees = trees.forEach((tree) => {
 				// Age the tree, and store its visiblity
 				var treeVisible = tree.age();
